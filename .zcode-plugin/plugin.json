@@ -65,6 +65,7 @@
         "id": "context",
         "title": {
           "en": "Context",
+          "en-US": "Context",
           "zh-CN": "上下文"
         },
         "icon": "chart-column",

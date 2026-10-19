@@ -12,7 +12,7 @@ await mkdir(target, { recursive: true })
 for (const entry of ['dist', '.zcode-plugin', 'commands', 'skills', 'docs']) {
   await cp(join(root, entry), join(target, entry), { recursive: true })
 }
-for (const file of ['README.md', 'README_zh.md', 'LICENSE', 'NOTICE']) {
+for (const file of ['README.md', 'README_CN.md', 'LICENSE', 'NOTICE']) {
   await cp(join(root, file), join(target, file))
 }
 try {
@@ -28,9 +28,12 @@ const catalog = {
       version: manifest.version,
       icon: 'https://gcore.jsdelivr.net/gh/bowenliang123/dsh-context@main/icon.svg',
       description: manifest.description,
-      displayName: 'ZCode Context',
+      displayName: 'ZCode Context Insight',
       displayName_i18n: { 'zh-CN': 'ZCode 上下文洞察' },
       description_i18n: manifest.description_i18n,
+      author: manifest.author,
+      homepage: manifest.homepage,
+      keywords: ['context', 'tokens', 'usage', 'session', 'mcp', 'insights'],
       category: 'developer-tools',
     },
   ],
