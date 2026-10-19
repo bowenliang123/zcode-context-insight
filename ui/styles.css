@@ -2697,16 +2697,6 @@ button:disabled {
   justify-content: flex-end;
   background: color-mix(in srgb, #0f172a 32%, transparent);
   backdrop-filter: blur(2px);
-  animation: zc-fade 120ms ease;
-}
-
-@keyframes zc-fade {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
 }
 
 .zc-drawer {
@@ -2717,18 +2707,6 @@ button:disabled {
   background: var(--panel);
   border-left: 1px solid var(--border);
   box-shadow: var(--shadow-lg);
-  animation: zc-slide 150ms ease;
-}
-
-@keyframes zc-slide {
-  from {
-    transform: translateX(14px);
-    opacity: 0.6;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
 }
 
 .zc-drawer-head {

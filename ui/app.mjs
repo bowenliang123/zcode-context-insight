@@ -441,6 +441,7 @@ function applyPreferences(prefs) {
   if (state.prefs.toolSort === 'name') state.browserSort = 'name'
   else if (state.prefs.toolSort === 'count') state.browserSort = 'calls'
   else if (state.prefs.toolSort === 'size') state.browserSort = 'size'
+  if (state.trendDna) state.trendMode = 'total'
   applyHost()
 }
 
@@ -491,6 +492,7 @@ function restoreView() {
   if (typeof saved.durationCurve === 'boolean') state.durationCurve = saved.durationCurve
   if (typeof saved.adaptive === 'boolean') state.adaptive = saved.adaptive
   if (typeof saved.trendDna === 'boolean') state.trendDna = saved.trendDna
+  if (state.trendDna) state.trendMode = 'total'
   if (['categories', 'changes', 'dna'].includes(saved.browserMode)) state.browserMode = saved.browserMode
   if (['7d', '30d', 'all'].includes(saved.insightsRange)) state.insightsRange = saved.insightsRange
   if (saved.pinned === true && Number.isInteger(saved.step) && saved.step > 0 && saved.step <= (state.snapshot.stats.steps ?? 0)) {
@@ -549,7 +551,7 @@ async function refresh({ silent = false } = {}) {
     state.loading = false
     state.error = null
     state.lastRefresh = Date.now()
-    render()
+    if (!(state.settingsOpen || state.detail || state.member)) render()
     schedulePoll()
   } catch (error) {
     state.loading = false
