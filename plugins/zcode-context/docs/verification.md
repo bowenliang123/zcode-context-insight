@@ -17,12 +17,12 @@ Verified on 2026-10-20 against ZCode Desktop **3.15.3** (CLI 0.16.9, Electron 41
 
 Live results during this pass:
 
-- Snapshot payload 56,162 bytes for a 638-step session, under ZCode's 64 KiB
+- Snapshot payload 58,081 bytes for a 696-step session, under ZCode's 64 KiB
   `structuredContent` budget; the fitter trims requests, events, file rows and timing spans further
   on longer sessions.
-- Insights payload 54,047 bytes: 71 of 236 session cards after payload fitting; the panel states the
+- Insights payload 54,074 bytes: 71 of 236 session cards after payload fitting; the panel states the
   truncation. Aggregate composition is limited to the 12 most recent sessions and says so.
-- MCP Apps HTML resource 612,180 bytes, under the 16 MiB resource limit.
+- MCP Apps HTML resource 614,629 bytes, under the 16 MiB resource limit.
 
 ## Desktop install
 

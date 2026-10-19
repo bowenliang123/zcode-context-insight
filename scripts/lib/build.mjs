@@ -45,6 +45,7 @@ export async function buildAll({ quiet = false } = {}) {
     minify: true,
     charset: 'utf8',
     legalComments: 'none',
+    loader: { '.svg': 'text' },
     logLevel,
   })
   const app = bundle.outputFiles[0].text.replace(/<\/script/gi, '<\\/script')
