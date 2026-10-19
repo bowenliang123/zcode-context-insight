@@ -10,6 +10,8 @@
   },
   "scripts": {
     "build": "node scripts/build.mjs",
+    "watch": "node scripts/watch.mjs",
+    "register": "node scripts/register.mjs",
     "check": "node scripts/check.mjs",
     "test": "node --test test/*.test.mjs",
     "smoke": "node scripts/smoke.mjs",
