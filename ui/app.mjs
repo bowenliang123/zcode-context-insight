@@ -1,5 +1,5 @@
 /**
- * zcode-context panel — a single-file MCP App UI.
+ * zcode-context-insight panel — a single-file MCP App UI.
  *
  * The host binds the panel to a session; the UI never receives the session id as a URL or global.
  * Every read is an app-only MCP tool call; the host attaches `com.zcode/request-context` on each
@@ -459,7 +459,7 @@ function applyPreferences(prefs) {
 }
 
 function viewKey(sessionId) {
-  return 'zcode-context:view:' + sessionId
+  return 'zcode-context-insight:view:' + sessionId
 }
 
 function saveView() {
@@ -3461,7 +3461,7 @@ async function boot() {
   }
   try {
     app = new App(
-      { name: 'zcode-context', version: VERSION },
+      { name: 'zcode-context-insight', version: VERSION },
       { availableDisplayModes: ['inline', 'fullscreen'] },
     )
     app.onhostcontextchanged = () => {
@@ -3484,7 +3484,7 @@ async function boot() {
 }
 
 function fatal(error) {
-  console.error('[zcode-context] fatal', error)
+  console.error('[zcode-context-insight] fatal', error)
   state.loading = false
   state.error = new UiError('client_error', String(error?.stack ?? error?.message ?? error))
   try {

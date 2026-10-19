@@ -1,5 +1,5 @@
 /**
- * stdio MCP server for the zcode-context panel.
+ * stdio MCP server for the zcode-context-insight panel.
  *
  * The host binds every call to a session through `_meta["com.zcode/request-context"]`; the panel is
  * generic HTML and obtains the bound session by calling an app-only tool. Reads run in a worker so
@@ -15,7 +15,7 @@ import { resolvePaths } from './data/paths.mjs'
 import { ContextError } from './domain/errors.mjs'
 import { readSessionContext } from './domain/session.mjs'
 
-const RESOURCE_URI = 'ui://zcode-context/context.html'
+const RESOURCE_URI = 'ui://zcode-context-insight/context.html'
 const VERSION = '0.1.0'
 const READ_TIMEOUT_MS = 30_000
 
@@ -50,7 +50,7 @@ class Reader {
         job.reject(new ContextError('worker_unavailable', 'The context data worker stopped.'))
       }
       this.pending.clear()
-      if (error) console.error('[zcode-context] worker error', error)
+      if (error) console.error('[zcode-context-insight] worker error', error)
     }
     worker.on('error', fail)
     worker.on('exit', () => fail(null))
@@ -106,7 +106,7 @@ function wrap(method, { requiresSession = true } = {}) {
       return { content: [], structuredContent: result }
     } catch (error) {
       const contextError = error instanceof ContextError ? error : new ContextError('read_failed', 'Context data is unavailable.')
-      if (!(error instanceof ContextError)) console.error('[zcode-context]', method, error)
+      if (!(error instanceof ContextError)) console.error('[zcode-context-insight]', method, error)
       return {
         isError: true,
         content: [{ type: 'text', text: contextError.message }],
@@ -126,7 +126,7 @@ const appOnly = (description, inputSchema) => ({
 
 export function createServer() {
   const server = new McpServer(
-    { name: 'zcode-context', version: VERSION },
+    { name: 'zcode-context-insight', version: VERSION },
     {
       instructions:
         'Read-only local context insights for a ZCode session. Prefer the Context panel in the session side pane; get_context_report returns a compact text report for the current session.',
@@ -304,7 +304,7 @@ export function createServer() {
         }
       } catch (error) {
         const contextError = error instanceof ContextError ? error : new ContextError('read_failed', 'Context data is unavailable.')
-        if (!(error instanceof ContextError)) console.error('[zcode-context] report', error)
+        if (!(error instanceof ContextError)) console.error('[zcode-context-insight] report', error)
         return { isError: true, content: [{ type: 'text', text: contextError.message }] }
       }
     },

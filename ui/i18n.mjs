@@ -444,7 +444,7 @@ const EN = {
   'settings.openSettingsHint': 'Change retention in ZCode Settings → General.',
   'settings.version': 'Version',
 
-  'about.title': 'About zcode-context',
+  'about.title': 'About zcode-context-insight',
   'about.body':
     'A read-only, offline context insight panel for ZCode. It reads ZCode’s local session store and model-I/O trajectories; it never changes a session, never calls a model and never touches the network.',
   'about.credits': 'Inspired by dsh-context. Built on ZCode’s official MCP Apps UI surface.',
@@ -933,7 +933,7 @@ const ZH = {
   'settings.openSettingsHint': '在 ZCode 设置 → 通用中修改保留策略。',
   'settings.version': '版本',
 
-  'about.title': '关于 zcode-context',
+  'about.title': '关于 zcode-context-insight',
   'about.body':
     '一个只读、离线的 ZCode 上下文洞察面板。它读取 ZCode 的本地会话存储和模型 I/O 轨迹；不会修改会话、不会调用模型，也不会访问网络。',
   'about.credits': '灵感来自 dsh-context，基于 ZCode 官方 MCP Apps UI 面板能力构建。',

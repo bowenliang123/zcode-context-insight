@@ -8,27 +8,27 @@ Verified on 2026-10-20 against ZCode Desktop **3.15.3** (CLI 0.16.9, Electron 41
 | --- | --- |
 | `npm test` | 11/11 domain tests pass: script-weighted estimation, image cap, session binding, preferences, file ops, composition anchoring, step detail/diff/DNA, DNA series, payload budget |
 | `npm run check` | manifest name/version, `ui.surfaces`, `dist/` placeholders, HTML size, `node --check` for server/worker |
-| `zcode plugins validate plugins/zcode-context` | **Plugin manifest is valid** |
+| `zcode plugins validate plugins/zcode-context-insight` | **Plugin manifest is valid** |
 | `npm run mcp-smoke` | initialize `2025-06-18`; 14 tools listed; session-bound snapshot/report succeed; missing metadata returns `binding_unavailable`; `ui://` resource returns `text/html;profile=mcp-app` |
 | `npm run smoke` | service reads the live local store; snapshot, fleet, insights and report all succeed |
 | `npm run test-host` | MCP Apps AppBridge handshake in an iframe; `callServerTool` reaches the service; host theme/locale changes repaint the panel; panel renders at 430 and 980 px |
 | `npm run watch` | rebuilds on changes and mirrors the runtime into the installed dev plugin cache |
-| `npm run register` | builds, packages, refreshes the local market, installs and enables `zcode-context@dev-zcode-context` |
+| `npm run register` | builds, packages, refreshes the local market, installs and enables `zcode-context-insight@dev-zcode-context-insight` |
 
 Live results during this pass:
 
-- Snapshot payload 58,081 bytes for a 696-step session, under ZCode's 64 KiB
+- Snapshot payload 58,578 bytes for a 745-step session, under ZCode's 64 KiB
   `structuredContent` budget; the fitter trims requests, events, file rows and timing spans further
   on longer sessions.
-- Insights payload 54,074 bytes: 71 of 236 session cards after payload fitting; the panel states the
+- Insights payload 54,047 bytes: 71 of 236 session cards after payload fitting; the panel states the
   truncation. Aggregate composition is limited to the 12 most recent sessions and says so.
-- MCP Apps HTML resource 614,629 bytes, under the 16 MiB resource limit.
+- MCP Apps HTML resource 614,669 bytes, under the 16 MiB resource limit.
 
 ## Desktop install
 
-- Local marketplace added as `dev-zcode-context` (source `/Users/bw/dev/zcode-context/plugins`).
-- Plugin installed and enabled as `zcode-context@dev-zcode-context` 0.1.0, MCP server
-  `plugin:zcode-context:context`, 1 command, 1 skill, 0 diagnostics.
+- Local marketplace added as `dev-zcode-context-insight` (source `/Users/bw/dev/zcode-context/plugins`).
+- Plugin installed and enabled as `zcode-context-insight@dev-zcode-context-insight` 0.1.0, MCP server
+  `plugin:zcode-context-insight:context`, 1 command, 1 skill, 0 diagnostics.
 - After the required ZCode restart, the native **Context** surface loaded and bound to the live
   session; it was inspected at the ZCode side-panel width.
 - `npm run register` refreshed the installed cache and re-enabled the plugin. The running desktop app

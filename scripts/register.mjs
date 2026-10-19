@@ -8,7 +8,7 @@ import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { buildAll, ROOT, syncInstalled } from './lib/build.mjs'
 
-const pluginId = 'zcode-context@dev-zcode-context'
+const pluginId = 'zcode-context-insight@dev-zcode-context-insight'
 const market = join(ROOT, 'plugins')
 
 function cliPath() {
@@ -45,7 +45,7 @@ try {
 
 // Marketplace add is idempotent enough for dev: try update first, then add when it is not registered.
 try {
-  run(['plugins', 'marketplace', 'update', 'dev-zcode-context'])
+  run(['plugins', 'marketplace', 'update', 'dev-zcode-context-insight'])
 } catch {
   run(['plugins', 'marketplace', 'add', market, '--scope', 'user'])
 }

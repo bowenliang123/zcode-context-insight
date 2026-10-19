@@ -44,7 +44,7 @@ let context = {
 }
 const bridge = new AppBridge(
   null,
-  { name: 'zcode-context-test-host', version: '0.1.0' },
+  { name: 'zcode-context-insight-test-host', version: '0.1.0' },
   { serverTools: {}, serverResources: {}, logging: {} },
   { hostContext: context },
 )
@@ -104,7 +104,7 @@ const hostHtml = `<!doctype html>
   iframe { width:430px; height:calc(100vh - 64px); border:1px solid #243040; border-radius:12px; background:#fff; }
 </style></head>
 <body>
-  <header><b>MCP Apps host · zcode-context</b><button id="theme">Toggle theme</button><button id="locale">Toggle locale</button><span id="status">connecting…</span></header>
+  <header><b>MCP Apps host · zcode-context-insight</b><button id="theme">Toggle theme</button><button id="locale">Toggle locale</button><span id="status">connecting…</span></header>
   <main><iframe id="panel" allow="clipboard-write"></iframe></main>
   <script type="module" src="/host.js"></script>
 </body></html>`

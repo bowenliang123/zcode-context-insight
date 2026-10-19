@@ -79,7 +79,7 @@ export async function syncInstalled() {
     return null
   }
   const entry = parsed?.plugins?.find(
-    (plugin) => plugin.name === 'zcode-context' && plugin.marketplace === 'dev-zcode-context',
+    (plugin) => plugin.name === 'zcode-context-insight' && plugin.marketplace === 'dev-zcode-context-insight',
   )
   if (!entry?.installPath || !existsSync(entry.installPath)) return null
   const target = join(entry.installPath, 'dist')

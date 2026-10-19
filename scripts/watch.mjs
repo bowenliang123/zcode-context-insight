@@ -45,7 +45,7 @@ await buildAll()
 const installed = await syncInstalled()
 console.log(
   'watching src/ and ui/' +
-    (installed ? ' · synced ' + installed : ' · no dev-zcode-context install; cache sync skipped'),
+    (installed ? ' · synced ' + installed : ' · no dev-zcode-context-insight install; cache sync skipped'),
 )
 for (const directory of ['src', 'ui']) {
   const watcher = watch(join(ROOT, directory), { recursive: true }, (_event, filename) => {

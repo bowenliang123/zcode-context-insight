@@ -61,7 +61,7 @@ function notify(method, params = {}) {
 const current = await request('initialize', {
   protocolVersion: '2025-06-18',
   capabilities: {},
-  clientInfo: { name: 'zcode-context-smoke', version: '0' },
+  clientInfo: { name: 'zcode-context-insight-smoke', version: '0' },
 })
 console.log('initialize', current.protocolVersion, current.serverInfo?.name, current.serverInfo?.version)
 notify('notifications/initialized')
@@ -115,7 +115,7 @@ const missing = await request('tools/call', {
 })
 console.log('missing metadata ->', missing.isError, missing.structuredContent?.error?.code)
 
-const resource = await request('resources/read', { uri: 'ui://zcode-context/context.html' })
+const resource = await request('resources/read', { uri: 'ui://zcode-context-insight/context.html' })
 const html = resource.contents?.[0]?.text ?? ''
 console.log('resource', resource.contents?.[0]?.mimeType, Buffer.byteLength(html), 'bytes', html.includes('window.__ZCODE_CONTEXT_PREVIEW__={') ? 'preview!' : 'ok')
 

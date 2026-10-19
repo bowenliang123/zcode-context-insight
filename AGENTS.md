@@ -1,4 +1,4 @@
-# zcode-context
+# zcode-context-insight
 
 A ZCode UI plugin for context insight and management, adapted from DeepSeek Harness's `dsh-context`.
 
@@ -16,7 +16,7 @@ A ZCode UI plugin for context insight and management, adapted from DeepSeek Harn
     dependency. Read the source rather than relying on stale README screenshots.
 - Plugin contract:
   - Source manifest: `.zcode-plugin/plugin.json`
-  - Distribution: `plugins/zcode-context/` plus `plugins/marketplace.json`
+  - Distribution: `plugins/zcode-context-insight/` plus `plugins/marketplace.json`
   - Runtime: one MCP stdio server (`dist/server.mjs`), one worker (`dist/worker.mjs`), one MCP Apps
     HTML resource (`dist/context.html`), built by `scripts/build.mjs`.
 
@@ -54,7 +54,7 @@ Complete all of these before any commit:
   - `npm test` — domain tests
   - `npm run check` — manifest, build output, syntax, environment
   - `npm run mcp-smoke` — real stdio MCP handshake, tools, session binding, Insights path
-  - `node /Applications/ZCode.app/Contents/Resources/glm/zcode.cjs plugins validate plugins/zcode-context`
+  - `node /Applications/ZCode.app/Contents/Resources/glm/zcode.cjs plugins validate plugins/zcode-context-insight`
 - Capture complete output; do not truncate a failing test or type/lint error.
 - If the UI changed, take fresh screenshots and update the README images.
 
@@ -79,17 +79,17 @@ Complete all of these before any commit:
 
 - **Build**: `npm run build` (writes `dist/`).
 - **Watch / hot rebuild**: `npm run watch` rebuilds on changes and mirrors `dist/` into the installed
-  dev plugin cache (`~/.zcode/cli/plugins/cache/dev-zcode-context/zcode-context/<version>/dist`).
+  dev plugin cache (`~/.zcode/cli/plugins/cache/dev-zcode-context-insight/zcode-context-insight/<version>/dist`).
   - UI-only change: close and reopen the Context panel, which re-reads the MCP resource.
   - Server/worker change: restart ZCode; the running MCP process keeps its module graph.
 - **Register**: `npm run register` builds, packages, refreshes the local market, installs/enables
-  `zcode-context@dev-zcode-context`, and syncs the runtime.
+  `zcode-context-insight@dev-zcode-context-insight`, and syncs the runtime.
 - **Browser preview**: `npm run preview` — opens `127.0.0.1:4180` with real local data; append
   `?theme=dark` or `?lang=en`.
 - **MCP Apps harness**: `npm run test-host` — AppBridge + iframe, real `callServerTool` and host
   context changes.
 - **Smoke**: `npm run smoke` (service) and `npm run mcp-smoke` (stdio MCP).
-- **Package**: `npm run package` — writes `plugins/zcode-context/` and the local catalog.
+- **Package**: `npm run package` — writes `plugins/zcode-context-insight/` and the local catalog.
 - **Node**: 24+ on PATH. ZCode's MCP launcher uses the declared `node` command.
 
 ## Compatibility
@@ -122,4 +122,4 @@ Complete all of these before any commit:
 - When asked to commit, commit changes separately by task or purpose.
 - `gh` is available; push after creating commits.
 - Do not commit `node_modules/`, root `dist/`, cache dumps or local plugin data.
-- The packaged `plugins/zcode-context/dist` is a deliberate distribution artifact and is committed.
+- The packaged `plugins/zcode-context-insight/dist` is a deliberate distribution artifact and is committed.

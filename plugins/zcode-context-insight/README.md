@@ -1,10 +1,10 @@
-![zcode-context — context insight for ZCode](https://raw.githubusercontent.com/bowenliang123/zcode-context/main/docs/images/context-panel.png)
+![zcode-context-insight — context insight for ZCode](https://raw.githubusercontent.com/bowenliang123/zcode-context-insight/main/docs/images/context-panel.png)
 
-# zcode-context
+# zcode-context-insight
 
 [中文](README_zh.md)
 
-[![GitHub stars](https://img.shields.io/github/stars/bowenliang123/zcode-context?style=social)](https://github.com/bowenliang123/zcode-context)
+[![GitHub stars](https://img.shields.io/github/stars/bowenliang123/zcode-context-insight?style=social)](https://github.com/bowenliang123/zcode-context-insight)
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 ![ZCode Desktop 3.15.1+](https://img.shields.io/badge/ZCode%20Desktop-3.15.1%2B-14b8a6)
 ![Node.js 24+](https://img.shields.io/badge/Node.js-24%2B-22c55e)
@@ -12,7 +12,7 @@
 
 **Context insight and management for ZCode, adapted from [dsh-context](https://github.com/bowenliang123/dsh-context).**
 
-`zcode-context` turns what ZCode already records on your machine into a session side panel:
+`zcode-context-insight` turns what ZCode already records on your machine into a session side panel:
 
 - **Context** — a compact DSH-style dashboard for the current request: composition, Token and Timing stats, the per-request trend, the request browser, context events, and file activity.
 - **Fleet** — the current agent, its parents, siblings and every subagent, with live status, billed tokens, estimated cost and context occupancy.
@@ -34,11 +34,11 @@ npm run build
 npm run package
 ```
 
-`npm run package` writes the installable plugin to `plugins/zcode-context/` and a local catalog to `plugins/marketplace.json`.
+`npm run package` writes the installable plugin to `plugins/zcode-context-insight/` and a local catalog to `plugins/marketplace.json`.
 
 1. Open **Settings → Plugin Management → Discover**.
 2. Add the absolute path to `<checkout>/plugins` as a plugin marketplace.
-3. Install **zcode-context**, then enable it.
+3. Install **zcode-context-insight**, then enable it.
 4. Restart ZCode once if the app was already running when you installed it.
 5. In a session, open the right-side panel switcher (`+`) and choose **Context / 上下文**.
 
@@ -48,13 +48,13 @@ For development, `npm run watch` rebuilds on changes and mirrors the runtime int
 
 ### From GitHub
 
-Add `bowenliang123/zcode-context` (or the full repository URL) as a plugin marketplace, install **zcode-context**, and enable it. The repository root `marketplace.json` points at the packaged plugin under `plugins/zcode-context`.
+Add `bowenliang123/zcode-context-insight` (or the full repository URL) as a plugin marketplace, install **zcode-context-insight**, and enable it. The repository root `marketplace.json` points at the packaged plugin under `plugins/zcode-context-insight`.
 
 ## Use it
 
 The Context panel follows DSH's right-sidebar arrangement: a compact metrics strip, Token Stats, Timing Stats, Current Context and Context Trend. Browser, Context Events and File Activity sit behind a slim detail switcher below the trend, so the sidebar stays readable.
 
-![The Context panel](https://raw.githubusercontent.com/bowenliang123/zcode-context/main/docs/images/context-panel.png)
+![The Context panel](https://raw.githubusercontent.com/bowenliang123/zcode-context-insight/main/docs/images/context-panel.png)
 
 | Area | What it answers |
 | --- | --- |
@@ -77,21 +77,21 @@ The provider-reported prompt total anchors the bar, so the headline figure match
 
 ### 📈 Context Trend
 
-![Overview area](https://raw.githubusercontent.com/bowenliang123/zcode-context/main/docs/images/context-overview.png)
+![Overview area](https://raw.githubusercontent.com/bowenliang123/zcode-context-insight/main/docs/images/context-overview.png)
 
 - **Steps / Turns** — one bar per model request, or one per turn using the turn's last request.
 - **Total / Delta** — cumulative composition, or the signed change against the previous record.
 - **Overview** — the whole loaded session as one continuous stacked area, scaled to the session-wide maximum. It has five axis labels, turn labels and a duration curve; hover to scrub, click to pin. This is not a per-request 100% ribbon: growth and compaction drops stay visible.
 - **DNA** — the newest 120 loaded trend bars become per-item fingerprints, and the browser switches to the flat DNA list. Older bars keep their category colors. Bands are fetched as a compact per-request series and kept across polling refreshes.
 
-![DNA fingerprints and browser](https://raw.githubusercontent.com/bowenliang123/zcode-context/main/docs/images/context-dna.png)
+![DNA fingerprints and browser](https://raw.githubusercontent.com/bowenliang123/zcode-context-insight/main/docs/images/context-dna.png)
 
 - **Adaptive** scales the chart to the visible maximum; **Duration** overlays each request's active time.
 - **Hover & pin** — scrub for a request tooltip; click to pin the step. The brief below the chart shows **User / In / Response**, the provider's **Actual prompt / Output / Cache**, and opens the exact item in the browser.
 
 ### 🧭 Context Browser
 
-![Context Browser](https://raw.githubusercontent.com/bowenliang123/zcode-context/main/docs/images/context-browser.png)
+![Context Browser](https://raw.githubusercontent.com/bowenliang123/zcode-context-insight/main/docs/images/context-browser.png)
 
 Choose **Categories**, **Changes** or **DNA**:
 
@@ -111,7 +111,7 @@ Click a compaction to open **What was summarized**: tokens before/after, summari
 
 ### 📁 File Activity
 
-![File Activity](https://raw.githubusercontent.com/bowenliang123/zcode-context/main/docs/images/file-activity.png)
+![File Activity](https://raw.githubusercontent.com/bowenliang123/zcode-context-insight/main/docs/images/file-activity.png)
 
 Open **File Activity** from the detail switcher:
 
@@ -122,7 +122,7 @@ Open **File Activity** from the detail switcher:
 
 ## 🚢 Fleet
 
-![Fleet](https://raw.githubusercontent.com/bowenliang123/zcode-context/main/docs/images/fleet.png)
+![Fleet](https://raw.githubusercontent.com/bowenliang123/zcode-context-insight/main/docs/images/fleet.png)
 
 Open the **Fleet** tab to see the current agent, its parents, siblings and every descendant as one card each:
 
@@ -135,7 +135,7 @@ Click a card for the initial prompt, latest reply, usage, timing and direct chil
 
 ## 🗂️ Insights
 
-![Insights](https://raw.githubusercontent.com/bowenliang123/zcode-context/main/docs/images/insights.png)
+![Insights](https://raw.githubusercontent.com/bowenliang123/zcode-context-insight/main/docs/images/insights.png)
 
 The **Insights** tab aggregates the local store across sessions:
 
@@ -154,7 +154,7 @@ Type `/context` in the composer. The plugin's model-visible `get_context_report`
 
 ## ⚙️ Preferences
 
-![Preferences](https://raw.githubusercontent.com/bowenliang123/zcode-context/main/docs/images/settings.png)
+![Preferences](https://raw.githubusercontent.com/bowenliang123/zcode-context-insight/main/docs/images/settings.png)
 
 The gear opens per-user preferences:
 
@@ -164,7 +164,7 @@ The gear opens per-user preferences:
 - context-window override (when ZCode's provider config and the bundled catalog cannot resolve one);
 - compact cards.
 
-Preferences are stored under the plugin data directory (`ZCODE_PLUGIN_DATA`, or `~/.zcode/zcode-context/preferences.json`) and never change the session.
+Preferences are stored under the plugin data directory (`ZCODE_PLUGIN_DATA`, or `~/.zcode/zcode-context-insight/preferences.json`) and never change the session.
 
 ## Good to know
 
@@ -234,7 +234,7 @@ ui/styles.css           card/chart visual system
 
 ## Like it?
 
-If `zcode-context` helped you see what your agent is carrying around, a ⭐ on [GitHub](https://github.com/bowenliang123/zcode-context) is much appreciated. Issues and PRs are welcome.
+If `zcode-context-insight` helped you see what your agent is carrying around, a ⭐ on [GitHub](https://github.com/bowenliang123/zcode-context-insight) is much appreciated. Issues and PRs are welcome.
 
 ## License
 

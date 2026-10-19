@@ -3,7 +3,7 @@ description: Show what this session's context window currently carries, what cha
 argument-hint: "[optional focus, e.g. tool results or compactions]"
 ---
 
-Use the installed `zcode-context` plugin to inspect this session's context. Call its read-only tool
+Use the installed `zcode-context-insight` plugin to inspect this session's context. Call its read-only tool
 `get_context_report` (namespaced as `mcp__context__get_context_report`) exactly once. The host
 injects the current session identity; do not pass a session id.
 
@@ -23,5 +23,5 @@ If the user asked for a specific focus, emphasize that part:
 Keep the answer to a few short paragraphs or a compact list. Do not invent figures the report does
 not contain. For the interactive breakdown, trend, request browser, file activity and agent fleet,
 tell the user to open the **Context** panel from the session's right-side panel switcher (the panel
-is read-only and offline). If `get_context_report` is unavailable, say that the zcode-context plugin
+is read-only and offline). If `get_context_report` is unavailable, say that the zcode-context-insight plugin
 is not installed or enabled and do not guess at the context contents.

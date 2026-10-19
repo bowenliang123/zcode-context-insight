@@ -31290,7 +31290,7 @@ function resolvePaths(overrides = {}) {
     join(dataRoot, "provider_config.json"),
     join(home, ".zcode", "v2", "provider_config.json")
   ].filter(Boolean);
-  const pluginDataDir = env("ZCODE_PLUGIN_DATA") || env("ZCODE_CONTEXT_PLUGIN_DATA") || join(home, ".zcode", "zcode-context");
+  const pluginDataDir = env("ZCODE_PLUGIN_DATA") || env("ZCODE_CONTEXT_PLUGIN_DATA") || join(home, ".zcode", "zcode-context-insight");
   return {
     home,
     dataRoot,
@@ -31326,7 +31326,7 @@ function readSessionContext(meta3) {
 }
 
 // src/server.mjs
-var RESOURCE_URI = "ui://zcode-context/context.html";
+var RESOURCE_URI = "ui://zcode-context-insight/context.html";
 var VERSION = "0.1.0";
 var READ_TIMEOUT_MS = 3e4;
 var Reader = class {
@@ -31359,7 +31359,7 @@ var Reader = class {
         job.reject(new ContextError("worker_unavailable", "The context data worker stopped."));
       }
       this.pending.clear();
-      if (error51) console.error("[zcode-context] worker error", error51);
+      if (error51) console.error("[zcode-context-insight] worker error", error51);
     };
     worker.on("error", fail);
     worker.on("exit", () => fail(null));
@@ -31411,7 +31411,7 @@ function wrap(method, { requiresSession = true } = {}) {
       return { content: [], structuredContent: result };
     } catch (error51) {
       const contextError = error51 instanceof ContextError ? error51 : new ContextError("read_failed", "Context data is unavailable.");
-      if (!(error51 instanceof ContextError)) console.error("[zcode-context]", method, error51);
+      if (!(error51 instanceof ContextError)) console.error("[zcode-context-insight]", method, error51);
       return {
         isError: true,
         content: [{ type: "text", text: contextError.message }],
@@ -31429,7 +31429,7 @@ var appOnly = (description, inputSchema) => ({
 });
 function createServer() {
   const server2 = new McpServer(
-    { name: "zcode-context", version: VERSION },
+    { name: "zcode-context-insight", version: VERSION },
     {
       instructions: "Read-only local context insights for a ZCode session. Prefer the Context panel in the session side pane; get_context_report returns a compact text report for the current session."
     }
@@ -31589,7 +31589,7 @@ function createServer() {
         };
       } catch (error51) {
         const contextError = error51 instanceof ContextError ? error51 : new ContextError("read_failed", "Context data is unavailable.");
-        if (!(error51 instanceof ContextError)) console.error("[zcode-context] report", error51);
+        if (!(error51 instanceof ContextError)) console.error("[zcode-context-insight] report", error51);
         return { isError: true, content: [{ type: "text", text: contextError.message }] };
       }
     }

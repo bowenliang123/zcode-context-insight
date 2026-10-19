@@ -33,7 +33,7 @@ export function resolvePaths(overrides = {}) {
     join(home, '.zcode', 'v2', 'provider_config.json'),
   ].filter(Boolean)
   const pluginDataDir =
-    env('ZCODE_PLUGIN_DATA') || env('ZCODE_CONTEXT_PLUGIN_DATA') || join(home, '.zcode', 'zcode-context')
+    env('ZCODE_PLUGIN_DATA') || env('ZCODE_CONTEXT_PLUGIN_DATA') || join(home, '.zcode', 'zcode-context-insight')
   return {
     home,
     dataRoot,

@@ -3,7 +3,7 @@ import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..')
-const target = join(root, 'plugins', 'zcode-context')
+const target = join(root, 'plugins', 'zcode-context-insight')
 const marketRoot = join(root, 'plugins')
 const manifest = JSON.parse(await readFile(join(root, '.zcode-plugin/plugin.json'), 'utf8'))
 
@@ -20,11 +20,11 @@ try {
 } catch {}
 
 const catalog = {
-  name: 'dev-zcode-context',
+  name: 'dev-zcode-context-insight',
   plugins: [
     {
       name: manifest.name,
-      source: './zcode-context',
+      source: './zcode-context-insight',
       version: manifest.version,
       icon: 'https://raw.githubusercontent.com/bowenliang123/dsh-context/main/icon.svg',
       description: manifest.description,

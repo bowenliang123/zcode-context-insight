@@ -1,11 +1,11 @@
 ---
-name: zcode-context
-description: Use when the user asks what is in the context window, why the context is large, which tool results or injected reminders are consuming tokens, what a compaction removed, how much a session cost, or how the agent family is doing in ZCode. Explains and operates the zcode-context panel/tool.
+name: zcode-context-insight
+description: Use when the user asks what is in the context window, why the context is large, which tool results or injected reminders are consuming tokens, what a compaction removed, how much a session cost, or how the agent family is doing in ZCode. Explains and operates the zcode-context-insight panel/tool.
 ---
 
-# zcode-context
+# zcode-context-insight
 
-`zcode-context` is a read-only local plugin that explains what a ZCode session sends to the model.
+`zcode-context-insight` is a read-only local plugin that explains what a ZCode session sends to the model.
 It never edits the session, never calls a model and never uses the network.
 
 ## Tool

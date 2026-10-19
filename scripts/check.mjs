@@ -21,14 +21,14 @@ if (existsSync(manifestPath)) {
     errors.push('plugin.json is not valid JSON: ' + error.message)
   }
 }
-check(manifest.name === 'zcode-context', 'manifest name must be zcode-context')
+check(manifest.name === 'zcode-context-insight', 'manifest name must be zcode-context-insight')
 check(typeof manifest.version === 'string' && manifest.version.length > 0, 'manifest version is required')
 check(Boolean(manifest.mcpServers?.context), 'manifest mcpServers.context is required')
 check(Boolean(manifest.ui?.surfaces?.length), 'manifest ui.surfaces is required')
 for (const surface of manifest.ui?.surfaces ?? []) {
   check(surface.availability === 'session', 'surface availability must be session')
   check(surface.server === 'context', 'surface server must be context')
-  check(String(surface.resourceUri).startsWith('ui://zcode-context/'), 'surface resource URI must be ui://zcode-context/...')
+  check(String(surface.resourceUri).startsWith('ui://zcode-context-insight/'), 'surface resource URI must be ui://zcode-context-insight/...')
 }
 check(existsSync(join(root, 'src/server.mjs')), 'missing src/server.mjs')
 check(existsSync(join(root, 'src/worker.mjs')), 'missing src/worker.mjs')
