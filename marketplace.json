@@ -1,0 +1,20 @@
+{
+  "name": "zcode-context-marketplace",
+  "plugins": [
+    {
+      "name": "zcode-context",
+      "source": "./plugins/zcode-context",
+      "version": "0.1.0",
+      "description": "Read-only context insight panel for ZCode: composition, trend, browser, events, file activity, fleet and cross-session insights.",
+      "displayName": "ZCode Context",
+      "displayName_i18n": {
+        "zh-CN": "ZCode 上下文洞察"
+      },
+      "description_i18n": {
+        "en": "Read-only context insight panel for ZCode: composition, trend, browser, events, file activity, fleet and cross-session insights.",
+        "zh-CN": "ZCode 只读上下文洞察面板：组成、趋势、浏览器、事件、文件活动、编队与跨会话洞察。"
+      },
+      "category": "developer-tools"
+    }
+  ]
+}

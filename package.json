@@ -1,0 +1,30 @@
+{
+  "name": "zcode-context",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Context insight and management for ZCode: per-request composition, trends, browser, events, file activity, fleet and cross-session insights.",
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "check": "node scripts/check.mjs",
+    "test": "node --test test/*.test.mjs",
+    "smoke": "node scripts/smoke.mjs",
+    "mcp-smoke": "node scripts/mcp-smoke.mjs",
+    "preview": "node scripts/preview.mjs",
+    "test-host": "node scripts/test-host.mjs",
+    "package": "node scripts/package.mjs",
+    "models": "node scripts/update-models.mjs"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.29.0",
+    "zod": "4.4.3"
+  },
+  "devDependencies": {
+    "@modelcontextprotocol/ext-apps": "2.0.0",
+    "esbuild": "^0.25.0"
+  }
+}
