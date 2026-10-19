@@ -111,8 +111,8 @@ Complete all of these before any commit:
 ## Docs
 
 - `docs/` contains user-facing documents and screenshots only.
-- README images use raw GitHub URLs so they render on GitHub and package pages; files live under
-  `docs/images/`.
+- README images use repository-relative `docs/images/` paths so they render in private checkouts,
+  on GitHub, and in the packaged plugin README without depending on unauthenticated raw URLs.
 - Update the screenshot after a visible layout/interaction change.
 - Keep `docs/verification.md` current with the tested host version, commands, known limits and
   whether the native surface was actually exercised.

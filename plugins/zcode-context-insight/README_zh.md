@@ -1,14 +1,10 @@
-![zcode-context-insight — ZCode 上下文洞察](https://raw.githubusercontent.com/bowenliang123/zcode-context-insight/main/docs/images/context-panel.png)
+![zcode-context-insight — ZCode 上下文洞察](docs/images/context-panel.png)
 
 # zcode-context-insight
 
 [English](README.md)
 
-[![GitHub stars](https://img.shields.io/github/stars/bowenliang123/zcode-context-insight?style=social)](https://github.com/bowenliang123/zcode-context-insight)
-[![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
-![ZCode Desktop 3.15.1+](https://img.shields.io/badge/ZCode%20Desktop-3.15.1%2B-14b8a6)
-![Node.js 24+](https://img.shields.io/badge/Node.js-24%2B-22c55e)
-![Read-only · Offline](https://img.shields.io/badge/read--only%20%C2%B7%20offline-f59e0b)
+**Apache-2.0 · ZCode Desktop 3.15.1+ · Node.js 24+ · Read-only · Offline**
 
 **面向 ZCode 的上下文洞察与管理面板，功能与交互改编自 [dsh-context](https://github.com/bowenliang123/dsh-context)。**
 
@@ -54,7 +50,7 @@ npm run package
 
 上下文面板沿用 DSH 的右侧栏排布：紧凑指标条、Token 统计、耗时统计、当前上下文与上下文趋势。浏览器、上下文事件与文件活动收在趋势下方的轻量详情切换中，让侧栏保持可读。
 
-![上下文面板](https://raw.githubusercontent.com/bowenliang123/zcode-context-insight/main/docs/images/context-panel.png)
+![上下文面板](docs/images/context-panel.png)
 
 | 区域 | 回答什么 |
 | --- | --- |
@@ -77,21 +73,21 @@ Provider 报告的提示总量锚定整条分段条，因此头部数字与请�
 
 ### 📈 上下文趋势
 
-![总览面积图](https://raw.githubusercontent.com/bowenliang123/zcode-context-insight/main/docs/images/context-overview.png)
+![总览面积图](docs/images/context-overview.png)
 
 - **步骤 / 回合** — 每个模型请求一根柱，或用回合内最后一个请求表示一个回合。
 - **总量 / 变化** — 累计组成，或相对上一条记录的有符号变化。
 - **总览** — 把整个已加载会话画成一张连续堆叠面积图，按会话内最大值缩放。图上有五个刻度、回合标签与耗时曲线；悬停可扫查，点击可固定。它不是每个请求都归一化为 100% 的色带：增长与压缩造成的下降都会保留。
 - **DNA** — 最新的 120 根已加载趋势柱变成逐条目指纹，同时浏览器切换到摊平的 DNA 列表；更早的柱子保留分类颜色。条带按紧凑的逐请求序列获取，并在轮询刷新之间保留。
 
-![DNA 指纹与浏览器](https://raw.githubusercontent.com/bowenliang123/zcode-context-insight/main/docs/images/context-dna.png)
+![DNA 指纹与浏览器](docs/images/context-dna.png)
 
 - **自适应** 按可见最大值缩放图表；**耗时** 叠加每个请求的活跃时间。
 - **悬停与固定** — 扫查请求提示；点击固定该步骤。图表下方的简述显示 **用户 / 进入 / 响应**、Provider 的 **实际提示 / 输出 / cache**，并可打开浏览器中对应的精确条目。
 
 ### 🧭 上下文浏览器
 
-![上下文浏览器](https://raw.githubusercontent.com/bowenliang123/zcode-context-insight/main/docs/images/context-browser.png)
+![上下文浏览器](docs/images/context-browser.png)
 
 可选择 **分类**、**变化** 或 **DNA**：
 
@@ -111,7 +107,7 @@ Provider 报告的提示总量锚定整条分段条，因此头部数字与请�
 
 ### 📁 文件活动
 
-![文件活动](https://raw.githubusercontent.com/bowenliang123/zcode-context-insight/main/docs/images/file-activity.png)
+![文件活动](docs/images/file-activity.png)
 
 从详情切换中打开 **文件活动**：
 
@@ -122,7 +118,7 @@ Provider 报告的提示总量锚定整条分段条，因此头部数字与请�
 
 ## 🚢 编队
 
-![编队](https://raw.githubusercontent.com/bowenliang123/zcode-context-insight/main/docs/images/fleet.png)
+![编队](docs/images/fleet.png)
 
 打开 **编队** 标签，当前 Agent、父级、兄弟与所有后代各显示为一张卡片：
 
@@ -135,7 +131,7 @@ Provider 报告的提示总量锚定整条分段条，因此头部数字与请�
 
 ## 🗂️ 洞察
 
-![洞察](https://raw.githubusercontent.com/bowenliang123/zcode-context-insight/main/docs/images/insights.png)
+![洞察](docs/images/insights.png)
 
 **洞察** 标签聚合本地存储中的跨会话数据：
 
@@ -154,7 +150,7 @@ Provider 报告的提示总量锚定整条分段条，因此头部数字与请�
 
 ## ⚙️ 偏好设置
 
-![偏好设置](https://raw.githubusercontent.com/bowenliang123/zcode-context-insight/main/docs/images/settings.png)
+![偏好设置](docs/images/settings.png)
 
 齿轮按钮打开每用户偏好：
 

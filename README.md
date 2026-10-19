@@ -1,14 +1,10 @@
-![zcode-context-insight — context insight for ZCode](https://raw.githubusercontent.com/bowenliang123/zcode-context-insight/main/docs/images/context-panel.png)
+![zcode-context-insight — context insight for ZCode](docs/images/context-panel.png)
 
 # zcode-context-insight
 
 [中文](README_zh.md)
 
-[![GitHub stars](https://img.shields.io/github/stars/bowenliang123/zcode-context-insight?style=social)](https://github.com/bowenliang123/zcode-context-insight)
-[![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
-![ZCode Desktop 3.15.1+](https://img.shields.io/badge/ZCode%20Desktop-3.15.1%2B-14b8a6)
-![Node.js 24+](https://img.shields.io/badge/Node.js-24%2B-22c55e)
-![Read-only · Offline](https://img.shields.io/badge/read--only%20%C2%B7%20offline-f59e0b)
+**Apache-2.0 · ZCode Desktop 3.15.1+ · Node.js 24+ · Read-only · Offline**
 
 **Context insight and management for ZCode, adapted from [dsh-context](https://github.com/bowenliang123/dsh-context).**
 
@@ -54,7 +50,7 @@ Add `bowenliang123/zcode-context-insight` (or the full repository URL) as a plug
 
 The Context panel follows DSH's right-sidebar arrangement: a compact metrics strip, Token Stats, Timing Stats, Current Context and Context Trend. Browser, Context Events and File Activity sit behind a slim detail switcher below the trend, so the sidebar stays readable.
 
-![The Context panel](https://raw.githubusercontent.com/bowenliang123/zcode-context-insight/main/docs/images/context-panel.png)
+![The Context panel](docs/images/context-panel.png)
 
 | Area | What it answers |
 | --- | --- |
@@ -77,21 +73,21 @@ The provider-reported prompt total anchors the bar, so the headline figure match
 
 ### 📈 Context Trend
 
-![Overview area](https://raw.githubusercontent.com/bowenliang123/zcode-context-insight/main/docs/images/context-overview.png)
+![Overview area](docs/images/context-overview.png)
 
 - **Steps / Turns** — one bar per model request, or one per turn using the turn's last request.
 - **Total / Delta** — cumulative composition, or the signed change against the previous record.
 - **Overview** — the whole loaded session as one continuous stacked area, scaled to the session-wide maximum. It has five axis labels, turn labels and a duration curve; hover to scrub, click to pin. This is not a per-request 100% ribbon: growth and compaction drops stay visible.
 - **DNA** — the newest 120 loaded trend bars become per-item fingerprints, and the browser switches to the flat DNA list. Older bars keep their category colors. Bands are fetched as a compact per-request series and kept across polling refreshes.
 
-![DNA fingerprints and browser](https://raw.githubusercontent.com/bowenliang123/zcode-context-insight/main/docs/images/context-dna.png)
+![DNA fingerprints and browser](docs/images/context-dna.png)
 
 - **Adaptive** scales the chart to the visible maximum; **Duration** overlays each request's active time.
 - **Hover & pin** — scrub for a request tooltip; click to pin the step. The brief below the chart shows **User / In / Response**, the provider's **Actual prompt / Output / Cache**, and opens the exact item in the browser.
 
 ### 🧭 Context Browser
 
-![Context Browser](https://raw.githubusercontent.com/bowenliang123/zcode-context-insight/main/docs/images/context-browser.png)
+![Context Browser](docs/images/context-browser.png)
 
 Choose **Categories**, **Changes** or **DNA**:
 
@@ -111,7 +107,7 @@ Click a compaction to open **What was summarized**: tokens before/after, summari
 
 ### 📁 File Activity
 
-![File Activity](https://raw.githubusercontent.com/bowenliang123/zcode-context-insight/main/docs/images/file-activity.png)
+![File Activity](docs/images/file-activity.png)
 
 Open **File Activity** from the detail switcher:
 
@@ -122,7 +118,7 @@ Open **File Activity** from the detail switcher:
 
 ## 🚢 Fleet
 
-![Fleet](https://raw.githubusercontent.com/bowenliang123/zcode-context-insight/main/docs/images/fleet.png)
+![Fleet](docs/images/fleet.png)
 
 Open the **Fleet** tab to see the current agent, its parents, siblings and every descendant as one card each:
 
@@ -135,7 +131,7 @@ Click a card for the initial prompt, latest reply, usage, timing and direct chil
 
 ## 🗂️ Insights
 
-![Insights](https://raw.githubusercontent.com/bowenliang123/zcode-context-insight/main/docs/images/insights.png)
+![Insights](docs/images/insights.png)
 
 The **Insights** tab aggregates the local store across sessions:
 
@@ -154,7 +150,7 @@ Type `/context` in the composer. The plugin's model-visible `get_context_report`
 
 ## ⚙️ Preferences
 
-![Preferences](https://raw.githubusercontent.com/bowenliang123/zcode-context-insight/main/docs/images/settings.png)
+![Preferences](docs/images/settings.png)
 
 The gear opens per-user preferences:
 
