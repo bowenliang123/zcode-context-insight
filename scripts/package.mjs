@@ -26,6 +26,7 @@ const catalog = {
       name: manifest.name,
       source: './zcode-context',
       version: manifest.version,
+      icon: 'https://raw.githubusercontent.com/bowenliang123/zcode-context/main/icon.svg',
       description: manifest.description,
       displayName: 'ZCode Context',
       displayName_i18n: { 'zh-CN': 'ZCode 上下文洞察' },

@@ -5,6 +5,7 @@
       "name": "zcode-context",
       "source": "./zcode-context",
       "version": "0.1.0",
+      "icon": "https://raw.githubusercontent.com/bowenliang123/zcode-context/main/icon.svg",
       "description": "See what every model request carries: context composition, per-step trend, full request browser, injections and compactions, file activity, the agent fleet, and cross-session insights — read-only and offline.",
       "displayName": "ZCode Context",
       "displayName_i18n": {

@@ -290,10 +290,13 @@ button:disabled {
   width: 30px;
   height: 30px;
   border-radius: 9px;
-  background: linear-gradient(135deg, var(--accent) 0%, #8b5cf6 100%);
-  color: #fff;
-  box-shadow: 0 2px 8px color-mix(in srgb, var(--accent) 25%, transparent);
+  background: color-mix(in srgb, var(--panel) 70%, transparent);
+  border: 1px solid var(--border);
   flex: 0 0 auto;
+}
+
+.zc-brand-icon {
+  display: block;
 }
 
 .zc-brand-text {
