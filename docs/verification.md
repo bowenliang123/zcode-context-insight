@@ -39,6 +39,9 @@ turn labels and a duration curve — not a ribbon where every request is normali
 the browser to the flat DNA list. The series is kept across polling refreshes, so the fingerprint does
 not flicker back to category bars.
 - The trend detail now shows `Actual / Output / Cache`, matching DSH's step detail header.
+- The Context view now follows DSH's right-sidebar arrangement: compact metrics strip, stacked Token
+  and Timing cards, full-width Current Context and Trend, with Browser/Events/File Activity behind a
+  slim detail switcher instead of competing for sidebar width.
 - Token/Timing cards stack at 560 px for readability while Current/Browser keep a two-column layout.
 
 ## Screenshots

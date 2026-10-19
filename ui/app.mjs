@@ -96,6 +96,8 @@ const state = {
   fileSort: 'count',
   filesAll: false,
   expandedFiles: new Set(),
+  detailsView: null,
+  statsOpen: false,
   detail: null,
   detailLoading: false,
   detailError: null,
@@ -709,6 +711,7 @@ function setTrendDna() {
     state.trendMode = 'total'
     state.overview = false
     state.browserMode = 'dna'
+    state.detailsView = 'browser'
     state.dnaData = null
     loadDna()
     if (!state.dnaSeries) loadDnaSeries()
@@ -1168,8 +1171,8 @@ function renderStepBar() {
       'div',
       { class: 'zc-stepstatus' },
       state.pinned
-        ? h('span', { class: 'zc-pin is-pinned' }, icon('pin', 13), state.t('steps.pinned', { step: selected }))
-        : h('span', { class: 'zc-pin' }, h('span', { class: 'zc-live-dot' }), state.t('steps.following')),
+        ? h('span', { class: 'zc-pin is-pinned', title: state.t('steps.pinned', { step: selected }) }, icon('pin', 12), '#' + selected)
+        : h('span', { class: 'zc-pin', title: state.t('steps.following') }, h('span', { class: 'zc-live-dot' }), state.t('steps.live')),
       state.pinned && selected != null && total > selected
         ? button(state.t('steps.newer', { n: total - selected }), {
             onClick: followLatest,
@@ -1177,7 +1180,7 @@ function renderStepBar() {
             icon: 'arrow',
           })
         : null,
-      state.pinned ? button(state.t('steps.jumpLatest'), { onClick: followLatest, class: 'zc-btn-tiny', icon: 'arrow' }) : null,
+      state.pinned ? button(state.t('steps.latest'), { onClick: followLatest, class: 'zc-btn-tiny', icon: 'arrow', title: state.t('steps.jumpLatest') }) : null,
     ),
     h(
       'div',
@@ -1217,14 +1220,54 @@ function openCoverage() {
 
 function renderContext() {
   const wrapper = h('div', { class: 'zc-context' })
-  const stats = h('div', { class: 'zc-stats-grid' }, renderStatsCard(), renderTokensCard(), renderTimingCard())
-  wrapper.append(stats)
-  const grid = h('div', { class: 'zc-grid' })
-  const left = h('div', { class: 'zc-col-main' }, renderCurrentCard(), renderTrendCard(), renderEventsCard(), renderFilesCard())
-  const right = h('div', { class: 'zc-col-side' }, renderBrowserCard(), renderCoverageCard())
-  grid.append(left, right)
-  wrapper.append(grid)
+  wrapper.append(renderStatsStrip())
+  if (state.statsOpen) wrapper.append(renderStatsCard())
+  wrapper.append(renderTokensCard(), renderTimingCard(), renderCurrentCard(), renderTrendCard())
+  wrapper.append(renderDetailsTabs())
+  if (state.detailsView === 'browser') wrapper.append(renderBrowserCard())
+  else if (state.detailsView === 'events') wrapper.append(renderEventsCard())
+  else if (state.detailsView === 'files') wrapper.append(renderFilesCard())
   return wrapper
+}
+
+function renderStatsStrip() {
+  const stats = state.snapshot.stats
+  const family = stats.subagents ?? { count: 0 }
+  const item = (label, value) => h('span', { class: 'zc-summary-item' }, h('span', null, label), h('b', null, value))
+  return h(
+    'div',
+    { class: 'zc-summary-strip' },
+    item(state.t('stats.turns'), formatCount(stats.turns)),
+    item(state.t('stats.steps'), formatCount(stats.steps)),
+    item(state.t('stats.toolCalls'), formatCount(stats.toolCalls)),
+    item(state.t('stats.family'), formatCount(family.count ?? 0)),
+    item(state.t('stats.cacheHit'), pct(stats.cacheHitRate)),
+    item(state.t('stats.cost'), costText(stats.cost)),
+    h('button', {
+      type: 'button',
+      class: 'zc-summary-toggle' + (state.statsOpen ? ' is-active' : ''),
+      onclick: () => { state.statsOpen = !state.statsOpen; render() },
+      'aria-expanded': state.statsOpen ? 'true' : 'false',
+    }, state.t('stats.details'), icon(state.statsOpen ? 'down' : 'right', 12)),
+  )
+}
+
+function renderDetailsTabs() {
+  const detail = state.stepDetail
+  const itemCount = (detail?.groups ?? []).reduce((sum, group) => sum + (group.count ?? 0), 0)
+  const eventCount = state.snapshot.eventsTotal ?? state.snapshot.events?.length ?? 0
+  const fileCount = state.snapshot.files?.entries?.length ?? 0
+  const tab = (key, label, count) => h('button', {
+    type: 'button',
+    class: 'zc-detail-tab' + (state.detailsView === key ? ' is-active' : ''),
+    onclick: () => { state.detailsView = state.detailsView === key ? null : key; render() },
+    'aria-pressed': state.detailsView === key ? 'true' : 'false',
+  }, label, h('b', null, formatCount(count)))
+  return h('div', { class: 'zc-detail-tabs' },
+    tab('browser', state.t('browser.title'), itemCount),
+    tab('events', state.t('events.title'), eventCount),
+    tab('files', state.t('files.title'), fileCount),
+  )
 }
 
 function card(title, { subtitle = null, right = null, className = '', body = null } = {}) {

@@ -70,6 +70,9 @@ threads. No npm/build tooling is needed at runtime; `dist/` is self-contained.
 ### The Context panel
 
 The panel is session-scoped and follows the host's theme and locale (English / 简体中文).
+It is arranged like DSH's right-side Context panel: a compact metrics strip, Token Stats, Timing Stats,
+Current Context and Context Trend; Browser, Events and File Activity sit behind a slim detail switcher
+below the trend so the sidebar stays readable.
 
 - **Step selector** — `‹`/`›` or the dropdown move between agent requests. Clicking a trend bar pins
   that request; the panel keeps your selection while new requests arrive and offers **N newer
