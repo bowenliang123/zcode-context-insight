@@ -1,35 +1,30 @@
+![zcode-context — ZCode 上下文洞察](https://raw.githubusercontent.com/bowenliang123/zcode-context/main/docs/images/context-panel.png)
+
 # zcode-context
 
-一个为 [ZCode](https://github.com/zai-org/ZCode) 提供的只读、离线上下文洞察面板，功能移植自
-[dsh-context](https://github.com/bowenliang123/dsh-context)（DeepSeek Harness）。
+[English](README.md)
 
-在任意会话右侧面板中打开它，看清模型实际携带了什么：
+[![GitHub stars](https://img.shields.io/github/stars/bowenliang123/zcode-context?style=social)](https://github.com/bowenliang123/zcode-context)
+[![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
+![ZCode Desktop 3.15.1+](https://img.shields.io/badge/ZCode%20Desktop-3.15.1%2B-14b8a6)
+![Node.js 24+](https://img.shields.io/badge/Node.js-24%2B-22c55e)
+![Read-only · Offline](https://img.shields.io/badge/read--only%20%C2%B7%20offline-f59e0b)
 
-- **上下文**：当前组成、逐请求趋势、完整请求浏览器、注入与压缩事件、文件活动。
-- **编队**：当前 Agent、父级与每个子 Agent，含计费 Token、预估费用与上下文占用。
-- **洞察**：跨会话用量、7 日图、8 周热力图、Token 构成、聚合组成与可搜索的会话卡片。
+**面向 ZCode 的上下文洞察与管理面板，功能与交互改编自 [dsh-context](https://github.com/bowenliang123/dsh-context)。**
 
-它不会修改会话、不会调用模型，也不会访问网络。
+`zcode-context` 把 ZCode 已经记录在本机的数据变成会话侧栏：
 
-![上下文面板](docs/images/context-panel.png)
+- **上下文**：当前请求的紧凑仪表盘，包括组成、Token 统计、耗时统计、逐请求趋势、请求浏览器、上下文事件与文件活动。
+- **编队**：当前 Agent、父级、兄弟与所有子 Agent，含运行状态、计费 Token、预估费用与上下文占用。
+- **洞察**：跨会话用量、KPI、7 日图、8 周热力图、Token 构成、聚合组成与可搜索的会话卡片。
+- **`/context`**：不离开对话即可获得当前会话的只读报告。
+- **偏好设置**：趋势、排序、币种、语言与上下文窗口覆盖的每用户默认值。
 
-## 它回答什么
+它只读、离线：不修改会话、不调用模型、不访问网络。
 
-| 问题 | 位置 |
-| --- | --- |
-| 窗口现在有多满？里面是什么？ | **当前上下文** 的堆叠条与图例 |
-| 哪一类内容最占空间？ | 系统提示、工具 Schema、用户消息、注入上下文、技能、助手回复、工具结果 |
-| 上下文是怎么长起来的？ | **上下文趋势**：每个请求一条堆叠柱；步骤/回合、总量/变化、总览、耗时曲线 |
-| 第 N 个请求到底带了什么？ | **上下文浏览器**：分类、搜索、排序、DNA 顺序、元素完整内容 |
-| 请求之间发生了什么变化？ | 与上一步/上一回合对比：新增、移除、Token 差值 |
-| 运行时注入了什么？ | **上下文事件**：提醒、Agent 列表、后台任务通知、技能加载、压缩摘要 |
-| 压缩删掉了什么？ | 压缩事件 → **被摘要的内容**（当前活动分支） |
-| Agent 对文件做了什么？ | **文件活动**：读取/写入/搜索/图片、行数差值、逐操作日志 |
-| Agent 家族状态如何？ | **编队**：血缘卡片、运行状态、上下文占用、费用 |
-| 跨会话用了多少？ | **洞察**：KPI、每日图、热力图、Token 构成、聚合组成、会话卡片 |
-| 在对话里快速查看 | `/context` |
+## 安装 / 更新
 
-## 安装
+**要求：** ZCode Desktop **3.15.1+**（需要官方 MCP Apps UI 契约），以及 `PATH` 中可用的 **Node.js 24+**（`node -v`）。运行时依赖已打进 `dist/`，安装后不需要 npm 或构建工具。
 
 ### 本地开发目录
 
@@ -39,103 +34,208 @@ npm run build
 npm run package
 ```
 
-`npm run package` 会把可安装插件写到 `plugins/zcode-context/`，并在 `plugins/marketplace.json`
-生成本地市场目录。
+`npm run package` 会把可安装插件写到 `plugins/zcode-context/`，并在 `plugins/marketplace.json` 生成本地市场目录。
 
 1. 打开 **设置 → 插件管理 → 发现**。
-2. 点击 **+** / **添加插件市场**，粘贴 `<checkout>/plugins` 的绝对路径（包含 `marketplace.json`）。
-3. 在新市场中安装 **zcode-context** 并启用。
-4. 如果安装时 ZCode 已在运行，请重启 ZCode，让应用重新加载插件面板。
+2. 添加 `<checkout>/plugins` 的绝对路径作为插件市场。
+3. 安装 **zcode-context**，然后启用。
+4. 如果安装时 ZCode 已经在运行，重启一次应用。
 5. 打开任意会话，点击右侧面板的 **+**，选择 **上下文**。
 
-更新：重新执行 `npm run build && npm run package`，刷新市场后重新安装/更新插件。请保留同一个本地市场名称，不要为同一来源重复创建市场。
+更新：执行 `npm run build && npm run package`，刷新市场，然后重新安装/更新插件。请保留同一个本地市场名称。
+
+开发时，`npm run watch` 会在文件变化后重建，并把运行时同步到已安装的插件缓存。只改 UI 时，关闭再重新打开面板即可；改动服务端或 Worker 后需要重启 ZCode。
 
 ### 从 GitHub 安装
 
-把 `bowenliang123/zcode-context`（或完整仓库 URL）添加为插件市场，安装 **zcode-context** 并启用。
-仓库根目录的 `marketplace.json` 指向 `plugins/zcode-context` 下的打包产物。
-
-**要求：** PATH 中可用 Node.js 24+（`node -v`）。MCP 服务需要 `node:sqlite` 和 Worker；运行时不需要 npm 或构建工具，`dist/` 已自包含。
+把 `bowenliang123/zcode-context`（或完整仓库 URL）添加为插件市场，安装 **zcode-context** 并启用。仓库根目录的 `marketplace.json` 指向 `plugins/zcode-context` 下的打包产物。
 
 ## 使用
 
-### 上下文面板
+上下文面板沿用 DSH 的右侧栏排布：紧凑指标条、Token 统计、耗时统计、当前上下文与上下文趋势。浏览器、上下文事件与文件活动收在趋势下方的轻量详情切换中，让侧栏保持可读。
 
-面板按会话绑定，跟随宿主的主题和语言（中文/English）。整体排布参考 DSH 的右侧上下文面板：紧凑指标条、Token 统计、耗时统计、当前上下文和上下文趋势；浏览器、事件与文件活动放在趋势下方的轻量详情切换中，保持侧栏可读。
+![上下文面板](https://raw.githubusercontent.com/bowenliang123/zcode-context/main/docs/images/context-panel.png)
 
-- **请求选择器**：`‹`/`›` 或下拉切换 Agent 请求。点击趋势柱会固定该请求；有新请求到达时保留你的选择，并显示 **N 个更新的请求**。焦点不在输入框时可用 `←`/`→`。
-- **当前上下文**：Provider 报告的提示大小、解析出的窗口、占用率、明确标注的输出预留和完整组成条。
-- **上下文趋势**：分类堆叠柱；步骤/回合；总量/变化；**总览**为按已加载会话窗口缩放、带刻度、回合和耗时曲线的连续堆叠面积图；**DNA 模式**把每根已加载趋势柱变成逐条目指纹，同时把浏览器切换到摊平的 DNA 列表；自适应缩放；悬停详情与点击固定。压缩、模型切换、回退会在柱上方标记。
-- **上下文浏览器**：分类分组、Token 合计与变化徽标；搜索；按大小/名称/提示顺序/调用次数排序；**变化** 模式可对比上一步或上一回合；**DNA** 模式按提示顺序摊平所有条目（最新在上）。点击条目查看完整内容、工具参数、结果正文、原始 JSON 与内容内查找。
-- **上下文事件**：按注入/压缩/切换/回退筛选。注入行直接打开对应浏览器条目；压缩行打开 **被摘要的内容**，支持分页。
-- **文件活动**：按读取/写入/搜索/图片筛选，搜索路径，按操作数/最近/路径/名称/新增行排序；展开文件查看逐操作日志并跳转到工具结果。
-- **数据覆盖**：精确/近似头部、模型 I/O 保留状态，以及改善未来覆盖的设置入口。
-
-### `/context` 命令
-
-在输入框输入 `/context`。插件的模型可见工具 `get_context_report` 会返回当前会话的紧凑报告（提示大小、占用、组成、计数、最近事件、覆盖），命令要求 Agent 如实呈现，不编造数字。
-
-### 偏好设置
-
-齿轮按钮打开每用户偏好：默认视图、趋势粒度/模式、对比基线、耗时曲线、文件排序、工具排序、币种、语言、上下文窗口覆盖、紧凑卡片。偏好保存在插件数据目录（`ZCODE_PLUGIN_DATA` 或 `~/.zcode/zcode-context/preferences.json`），不会修改会话。
-
-## 数字是怎么来的
-
-- **消息**来自 ZCode 完整的会话存储：`message` 与 `part`，包括工具调用/结果、合成提醒、压缩摘要、图片和附件。`semantics.providerVisibility` 决定是否发给模型；`session.revert` 决定活动分支。
-- **头部**（系统提示 + 工具 Schema）来自模型 I/O 轨迹 `~/.zcode/cli/rollout/model-io-<session>.jsonl`，支持 `full` / `delta` / `tail` 三种编码。
-- **每个请求的总量**来自 `model_usage`：`input_tokens` 是 Provider 报告的提示（包含缓存读取），`output_tokens` 精确，缓存创建/读取单列。分类比例是启发式估算，并缩放到实际提示总量。
-- **Token 估算**使用脚本加权密度（约 4 个 ASCII / 1.5 个 CJK / 2 个其他字符每 Token），加块与角色开销。图片在记录尺寸时使用 DeepSeek 14px patch 视觉计算器。分类数字带 `≈`，提示与输出总量不带。
-- **耗时**来自 `model_usage` 的 duration/TTFT 与 `tool_usage`；时间条绘制首 Token、生成、工具运行和间隙。并行工具可能重叠，圆环会截断工具占比，但行内保留真实时长。
-- **费用**是按 [models.dev](https://models.dev) 内置快照的标价估算（美元；人民币按 1 CNY = 0.15 USD）。未知模型显示 `—`，运行时不联网取价。
-- **上下文窗口**解析顺序：用户覆盖 → ZCode Provider 配置 → models.dev → 未知。未知窗口不会伪造百分比。
-- **文件活动**使用 Read/Write/Edit 的结构化元数据（编辑的增删行数精确），并对明确的 Bash 路径做保守解析；Shell 推断出的操作会标注。
-
-## 数据覆盖与保留
-
-ZCode 默认的 **模型 I/O 保留是有界的**：生产环境最多保留 3 个会话轨迹文件，单会话 64 MiB 后重置，且只写尾部消息窗口与增量。因此本插件从完整会话存储重建**消息**，而较早请求的**头部**可能由最近的已记录请求近似。面板会在覆盖卡片与页脚明确说明，绝不把近似值当作精确值。
-
-如需精确的历史头部，请在 ZCode **设置 → 通用 → 完整保留模型 I/O** 中开启。它只影响未来请求，已经丢弃的记录无法恢复；插件不会修改这个设置。
-
-其他限制：用量行和日志的保留窗口短于会话存储；模型 I/O 文件已不存在的会话仍可显示完整的消息组成，但会带 `header missing` 的未记录余量。回退分支只读；被摘要内容按活动分支展示，并说明压缩本身是否位于被放弃的分支。
-
-## 适配说明（DSH → ZCode）
-
-| dsh-context | zcode-context |
+| 区域 | 回答什么 |
 | --- | --- |
-| 会话 **上下文/编队** Tab、洞察侧栏页、`/context` 弹窗 | 一个会话级 MCP Apps 面板，内含 **上下文/编队/洞察**；ZCode 只暴露会话级 `ui.surfaces`，没有全局侧栏页或可由插件打开的弹窗。 |
-| `/context` 弹窗 | `/context` 命令 + 模型可见 `get_context_report`；完整浏览器仍在面板中一键可达。 |
-| 宿主 `contextPressure` / `contextBreakdown` 投影 | Provider 报告的 `model_usage` + 完整 SQLite 消息存储；头部来自模型 I/O。 |
-| DSH 子 Agent/团队投影 | ZCode `session.parent_id` / `task_type = subagent_child`；面板宿主不提供会话切换，编队为信息视图。 |
-| 文件预览/附件预览栏 | 只读元数据和内容；可复制路径；不加载外部资源。 |
-| Prompt 前缀/后缀注入 | ZCode 插件契约不提供；直接舍弃而不是伪造。 |
-| 实时插件归属（`tools.register`） | 工具来源标签：内置、插件或 `mcp:<server>`，由工具名推断。 |
-| 每条趋势柱的逐条目 DNA 带 | DNA 按需获取紧凑的逐请求条带（每柱最多 36 条）；浏览器的完整 DNA 列表保持分页。 |
+| **指标条** | 回合、步骤、工具调用、Agent 网络规模、缓存命中率、预估费用；可展开完整统计卡片。 |
+| **Token 统计** | 计费 Token 去了哪里：按组成拆分，并以 Provider 精确的输出量收口。 |
+| **耗时统计** | 活跃时间如何分配到首 Token 等待、模型生成、工具运行与其他开销。 |
+| **当前上下文** | 窗口此刻装了什么，以及相对模型窗口的占用、输出预留与压缩余量。 |
+| **上下文趋势** | 每个请求一根柱：步骤/回合、总量/变化、连续总览、DNA 指纹、自适应缩放与耗时曲线。 |
+| **上下文浏览器** | 任意选中请求由什么组装而成：分类、搜索、排序、变化、DNA 顺序与完整条目内容。 |
+| **上下文事件** | 注入、压缩、模型切换与回退，可下钻查看一次压缩摘要了什么。 |
+| **文件活动** | 读取、写入与搜索的路径、行数差值与逐操作日志。 |
 
-保留了原插件的交互词汇：跟随/固定、悬停/固定趋势、步骤简述、分类差异、DNA 顺序、事件筛选、文件筛选，以及当前组成中的输出预留遮罩。
+顶部步骤选择器可固定一个请求。**加载更早的请求** 扩展已加载窗口。阅读历史时若有新请求到达，面板提供 **N 个更新** 与 **最新**，不会抢走你的选择。
 
-## 隐私
+### 🧱 当前上下文
 
-- 只读本地文件：`~/.zcode/cli/db/db.sqlite`、WAL、`rollout/`、`debug/`、`log/`，以及用于窗口解析的 `~/.zcode/v2/provider_config.json`（只读模型规则）；并从 `~/.zcode/v2/setting.json` 读取保留开关。
-- SQLite 以 `readOnly` 打开并设置 `PRAGMA query_only`；没有迁移、写入或加锁。
-- 无网络、无遥测、无模型调用；HTML 资源的 CSP 允许列表为空。
-- 工具输出按单个元素读取并分块；会话列表只取有界 SQL 字段。每个会产出数据的读取都控制在 ZCode 的 64 KiB `structuredContent` 预算内；元素正文、事件页、DNA 列表和分类页按页加载，而不是静默截断。
+相对解析出的上下文窗口绘制分段条：系统提示、工具 Schema、用户消息、注入上下文、技能注入、助手回复与工具结果，各自标注 ≈Token 与占比。斜线阴影尾部是输出预留，剩余空间是压缩余量。
+
+Provider 报告的提示总量锚定整条分段条，因此头部数字与请求账单一致。较早请求若未保留系统提示和工具 Schema，面板会明确说明，并把缺失的余量标为 **未记录**，而不是编造拆分。
+
+### 📈 上下文趋势
+
+![总览面积图](https://raw.githubusercontent.com/bowenliang123/zcode-context/main/docs/images/context-overview.png)
+
+- **步骤 / 回合** — 每个模型请求一根柱，或用回合内最后一个请求表示一个回合。
+- **总量 / 变化** — 累计组成，或相对上一条记录的有符号变化。
+- **总览** — 把整个已加载会话画成一张连续堆叠面积图，按会话内最大值缩放。图上有五个刻度、回合标签与耗时曲线；悬停可扫查，点击可固定。它不是每个请求都归一化为 100% 的色带：增长与压缩造成的下降都会保留。
+- **DNA** — 最新的 120 根已加载趋势柱变成逐条目指纹，同时浏览器切换到摊平的 DNA 列表；更早的柱子保留分类颜色。条带按紧凑的逐请求序列获取，并在轮询刷新之间保留。
+
+![DNA 指纹与浏览器](https://raw.githubusercontent.com/bowenliang123/zcode-context/main/docs/images/context-dna.png)
+
+- **自适应** 按可见最大值缩放图表；**耗时** 叠加每个请求的活跃时间。
+- **悬停与固定** — 扫查请求提示；点击固定该步骤。图表下方的简述显示 **用户 / 进入 / 响应**、Provider 的 **实际提示 / 输出 / cache**，并可打开浏览器中对应的精确条目。
+
+### 🧭 上下文浏览器
+
+![上下文浏览器](https://raw.githubusercontent.com/bowenliang123/zcode-context/main/docs/images/context-browser.png)
+
+可选择 **分类**、**变化** 或 **DNA**：
+
+- **分类** — 可折叠分组、Token 合计、条目数与变化徽标。支持搜索、按大小/名称/提示顺序/调用次数排序，以及继续加载。
+- **变化** — 将选中请求与上一步或上一回合对比：新增、移除、修改，并带 Token 差值。
+- **DNA** — 按提示顺序摊平的列表，最新在上，显示位置、分类、引入步骤与 Token 代价。
+
+点击任意条目可阅读其完整内容：系统提示、工具 Schema、消息正文、推理、工具参数与结果正文。工具卡片包含状态、参数表、原始 JSON 与 Markdown/文本视图；大内容分页加载。
+
+工具 Schema 行带有来源标签（`built-in`、`plugin` 或 `mcp:<server>`）与调用次数。助手分类可按 **思考 / 工具 / 回答** 筛选。
+
+### ⚡ 上下文事件
+
+每次运行时注入、压缩、模型切换与回退都会列出其生产者、净 Token 变化、步骤与时间。筛选标签覆盖当前会话中实际出现的事件类型。
+
+点击一次压缩可打开 **被摘要的内容**：压缩前后 Token、被摘要与保留的条数、耗时，以及活动分支上的消息。浏览器可对比压缩前后的请求。中断或没有边界的压缩会明确说明摘要内容不可用，而不是报错。
+
+### 📁 文件活动
+
+![文件活动](https://raw.githubusercontent.com/bowenliang123/zcode-context/main/docs/images/file-activity.png)
+
+从详情切换中打开 **文件活动**：
+
+- 读取 / 写入 / 搜索 / 图片筛选，以及路径搜索。
+- 按操作数、最近、路径、名称或新增行排序。
+- 展开文件查看逐操作日志；每次操作可跳转到对应的工具结果。
+- 编辑使用记录中的精确增删行数；写入回退到内容行数；由 Shell 推断的操作会标注为估算。
+
+## 🚢 编队
+
+![编队](https://raw.githubusercontent.com/bowenliang123/zcode-context/main/docs/images/fleet.png)
+
+打开 **编队** 标签，当前 Agent、父级、兄弟与所有后代各显示为一张卡片：
+
+- 角色（当前 / 父级 / 兄弟 / 子 Agent）、任务类型与模型；
+- 计费 Token、预估费用与缓存命中率；
+- 最新上下文大小与占用；
+- 运行 / 完成 / 错误状态，运行中的 Agent 带脉冲。
+
+点击卡片查看初始提示、最新回复、用量、耗时与直接子级。面板宿主没有提供会话切换，因此编队是信息视图；请从 ZCode 的会话列表打开另一个会话。
+
+## 🗂️ 洞察
+
+![洞察](https://raw.githubusercontent.com/bowenliang123/zcode-context/main/docs/images/insights.png)
+
+**洞察** 标签聚合本地存储中的跨会话数据：
+
+- **KPI** — 会话数、计费 Token、预估费用、缓存命中率、模型调用数与平均最新上下文。
+- **7 日图** — 每日计费 Token 与预估费用。
+- **热力图** — 最近 8 周的每日计费 Token；点击某天可筛选会话卡片。
+- **Token 构成** — 提示、缓存读取与输出。
+- **聚合组成** — 最近 12 个会话的合计，并标明会话数。
+- **会话卡片** — 标题、工作区、模型、Token、费用、缓存命中与上下文占用；支持范围、搜索、排序与按工作区分组。
+
+范围、日期、搜索与排序作用于会话卡片。用量只来自本地仍保留用量行的会话，面板会明确说明；如果载荷预算裁剪了卡片列表，面板也会说明当前展示了多少个会话（共多少）。
+
+## ⌨️ `/context`
+
+在输入框输入 `/context`。插件的模型可见工具 `get_context_report` 读取当前会话并返回紧凑报告：提示大小、占用、组成、计数、费用、最近事件与数据覆盖。命令要求 Agent 如实呈现，不编造数字；完整交互浏览器仍在面板中。
+
+## ⚙️ 偏好设置
+
+![偏好设置](https://raw.githubusercontent.com/bowenliang123/zcode-context/main/docs/images/settings.png)
+
+齿轮按钮打开每用户偏好：
+
+- 默认视图、趋势粒度与模式、对比基线；
+- 耗时曲线、文件与工具排序；
+- 币种与语言；
+- 上下文窗口覆盖（当 ZCode Provider 配置与内置目录都无法解析时）；
+- 紧凑卡片。
+
+偏好保存在插件数据目录（`ZCODE_PLUGIN_DATA`，或 `~/.zcode/zcode-context/preferences.json`），不会修改会话。
+
+## 需要知道的细节
+
+**估算与实测。** 分类数字使用按字符脚本加权的启发式（约 4 个 ASCII / 1.5 个 CJK / 2 个其他字符每 Token），并锚定到 Provider 报告的提示总量。提示、输出与缓存计数是精确值。趋势提示与简述会把 Provider 实测值显示在估算值旁边。
+
+**上下文窗口。** 解析顺序：你的覆盖 → ZCode 的 Provider 配置 → 内置 models.dev 快照 → 未知。未知窗口保持未知，面板不会伪造百分比。费用是同一离线快照的标价估算；未知模型显示 `—`。
+
+**消息与头部。** 消息组成从 ZCode 完整的 SQLite 会话存储重建，包括工具调用/结果、合成提醒、压缩摘要、图片与附件。系统提示与工具 Schema 来自模型 I/O 轨迹。在 ZCode 默认的有界保留下，较早的头部可能由最近的已记录请求近似；覆盖卡片与页脚会明确说明。
+
+**保留策略。** 如需精确的历史头部，请开启 **设置 → 通用 → 完整保留模型 I/O**。它只影响未来请求，已经丢弃的记录无法恢复；插件不会修改这个设置。
+
+**压缩与回退。** 压缩之后的请求会排除被摘要的消息；条目跟随活动回退分支，而会话级计数与历史活动仍按整个会话统计。
+
+**适配限制。** ZCode 只暴露会话级 `ui.surfaces`，因此编队与洞察是面板内标签，而不是一级侧栏页；宿主也没有会话切换 API。插件无法注入提示词前缀/后缀。DNA 强制使用总量模式（不支持逐条目 DNA Delta），覆盖最新的 120 个已加载请求。图片与文件附件只显示元数据与已记录的文本；不加载外部资源。编队的会话跳转、文件预览等行为因此与 DSH 不同。
+
+**国际化。** English 与简体中文。
 
 ## 开发
 
 ```sh
-npm install
-npm run build
-npm test
-npm run check
-npm run smoke
-npm run mcp-smoke
-npm run preview
-npm run test-host
-npm run package
+npm install          # esbuild + MCP SDK
+npm run build        # dist/server.mjs, dist/worker.mjs, dist/context.html
+npm run watch        # 文件变化后重建，并同步已安装的开发插件
+npm run register     # 构建、打包、注册并启用本地插件
+npm test             # domain 测试
+npm run check        # manifest、构建产物、语法与环境检查
+npm run smoke        # 本地真实数据库 smoke
+npm run mcp-smoke    # stdio MCP 握手、工具、会话绑定、洞察
+npm run preview      # 基于真实只读服务的浏览器预览
+npm run test-host    # MCP Apps AppBridge + iframe 握手
+npm run package      # 打包插件 + 本地市场
 ```
 
-`npm run preview` 在 `127.0.0.1` 上提供构建后的面板，并通过本地传输调用同一个只读服务；可加 `?theme=dark` 或 `?lang=en` 查看另一主题/语言。
+`npm run preview` 在 `127.0.0.1:4180` 提供构建后的面板，使用真实本地数据；可加 `?theme=dark` 或 `?lang=en`。`npm run test-host` 通过真实的 `@modelcontextprotocol/ext-apps` AppBridge 在 `127.0.0.1:4190` 提供同一面板。
+
+watch 细节：只改 UI 时，关闭再重新打开上下文面板即可（面板打开时会重新读取 MCP 资源）。改动服务端或 Worker 后需要重启 ZCode，因为运行中的 MCP 进程会保留旧模块图。
+
+关键路径：
+
+```text
+src/server.mjs          MCP stdio 服务与会话绑定
+src/worker.mjs          只读 SQLite Worker
+src/service.mjs         带缓存的会话视图、聚合与载荷裁剪
+src/data/db.mjs         容忍 Schema 差异的有界 SQL
+src/data/rollout.mjs    模型 I/O full/delta/tail 读取
+src/domain/compose.mjs  组成、趋势、差异、简述、压缩切分
+src/domain/items.mjs    条目提取与 Token 估算
+src/domain/events.mjs   注入、压缩、模型切换、回退
+src/domain/files.mjs    文件操作与聚合
+src/domain/detail.mjs   条目与被摘要消息内容
+ui/app.mjs              MCP App UI
+ui/styles.css           卡片/图表视觉系统
+```
+
+## 隐私
+
+- 只读本地 ZCode 数据：`~/.zcode/cli/db/db.sqlite` 及其 WAL、`rollout/`、`debug/`、`log/`，以及 `~/.zcode/v2/provider_config.json` 中的模型规则和 `~/.zcode/v2/setting.json` 中的保留开关。
+- SQLite 以 `readOnly` 打开并设置 `PRAGMA query_only`；没有迁移、写入或锁。
+- 无网络、无遥测、无模型调用。HTML 资源的 CSP 允许列表为空。
+- 完整工具输出按单个元素逐次读取并分块；产出结果的工具都控制在 ZCode 的 64 KiB `structuredContent` 预算内，大内容使用分页。
+
+## 兼容性
+
+- ZCode Desktop **3.15.1+**；在 **3.15.3** 上验证。
+- Node.js **24+**（`node:sqlite`、Worker Threads）。
+- 测试平台、命令、覆盖范围与已知限制见 [docs/verification.md](docs/verification.md)。
+
+## 喜欢它？
+
+如果 `zcode-context` 帮你看清了 Agent 携带的上下文，欢迎在 [GitHub](https://github.com/bowenliang123/zcode-context) 点一个 ⭐。也欢迎 Issue 与 PR。
 
 ## 许可
 
-Apache-2.0。见 [LICENSE](LICENSE) 与 [NOTICE](NOTICE)。功能与交互设计改编自 **dsh-context**（Apache-2.0）；模型元数据与标价来自 **models.dev**。
+[Apache-2.0](LICENSE)。功能与交互设计改编自 [dsh-context](https://github.com/bowenliang123/dsh-context)；模型元数据与标价来自 [models.dev](https://models.dev)。

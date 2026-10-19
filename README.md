@@ -1,40 +1,32 @@
+![zcode-context — context insight for ZCode](https://raw.githubusercontent.com/bowenliang123/zcode-context/main/docs/images/context-panel.png)
+
 # zcode-context
 
-A read-only, offline context insight panel for [ZCode](https://github.com/zai-org/ZCode), adapted from the
-feature set of [dsh-context](https://github.com/bowenliang123/dsh-context) for DeepSeek Harness.
+[中文](README_zh.md)
 
-Open it from any session's right-side panel switcher and see what the model is actually carrying:
+[![GitHub stars](https://img.shields.io/github/stars/bowenliang123/zcode-context?style=social)](https://github.com/bowenliang123/zcode-context)
+[![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
+![ZCode Desktop 3.15.1+](https://img.shields.io/badge/ZCode%20Desktop-3.15.1%2B-14b8a6)
+![Node.js 24+](https://img.shields.io/badge/Node.js-24%2B-22c55e)
+![Read-only · Offline](https://img.shields.io/badge/read--only%20%C2%B7%20offline-f59e0b)
 
-- **Context** — current composition, per-request trend, full request browser, injections and
-  compactions, and file activity.
-- **Fleet** — the current agent, its parents and every subagent, with billed tokens, estimated cost and
-  context occupancy.
-- **Insights** — cross-session usage, a 7-day chart, an 8-week heatmap, token mix, aggregate
-  composition and searchable session cards.
+**Context insight and management for ZCode, adapted from [dsh-context](https://github.com/bowenliang123/dsh-context).**
 
-It never changes a session, never calls a model and never touches the network.
+`zcode-context` turns what ZCode already records on your machine into a session side panel:
 
-![Context panel](docs/images/context-panel.png)
+- **Context** — a compact DSH-style dashboard for the current request: composition, Token and Timing stats, the per-request trend, the request browser, context events, and file activity.
+- **Fleet** — the current agent, its parents, siblings and every subagent, with live status, billed tokens, estimated cost and context occupancy.
+- **Insights** — cross-session usage: KPI band, 7-day chart, 8-week heatmap, token mix, aggregate composition, and searchable session cards.
+- **`/context`** — a read-only report for the current session, without leaving the chat.
+- **Preferences** — per-user defaults for the trend, sorting, currency, language and context-window override.
 
-## What it answers
+It is read-only and offline: no session edits, no model calls, no network.
 
-| Question | Where |
-| --- | --- |
-| How full is the window right now, and what is in it? | **Current Context** bar and legend |
-| Which part of the context is responsible? | system prompt, tool schemas, user, injected context, skills, assistant, tool results |
-| How did it grow? | **Context Trend**: one stacked bar per request, Step/Turn, Total/Delta, overview, duration overlay |
-| What exactly did request #N carry? | **Context Browser**: categories, search, sort, DNA order, full element content |
-| What changed between requests? | Compare with the previous step or turn; added/removed/token deltas |
-| What did the runtime inject? | **Context Events**: reminders, agent listings, background-task notices, skill loads, compaction summaries |
-| What did a compaction remove? | compaction event → **What was summarized**, on the active branch |
-| What did the agent do to files? | **File Activity**: read/write/search/image rows, line deltas, per-op log |
-| How is the agent family doing? | **Fleet**: lineage cards, live status, context occupancy, cost |
-| What did I use across sessions? | **Insights**: KPIs, daily chart, heatmap, token mix, composition, session cards |
-| Quick summary in chat | `/context` |
+## Install / update
 
-## Install
+**Requirements:** ZCode Desktop **3.15.1+** with the official MCP Apps UI contract, and **Node.js 24+** on `PATH` (`node -v`). Runtime dependencies are bundled in `dist/`; no npm or build tools are needed after installation.
 
-### From a local development checkout
+### Local checkout
 
 ```sh
 npm install
@@ -42,176 +34,208 @@ npm run build
 npm run package
 ```
 
-`npm run package` writes the installable plugin to `plugins/zcode-context/` and a local catalog to
-`plugins/marketplace.json`.
+`npm run package` writes the installable plugin to `plugins/zcode-context/` and a local catalog to `plugins/marketplace.json`.
 
 1. Open **Settings → Plugin Management → Discover**.
-2. Click **+** / **Add Plugin Marketplace** and paste the absolute path to
-   `<checkout>/plugins` (the directory containing `marketplace.json`).
-3. Open the new market, install **zcode-context**, and enable it.
-4. Restart ZCode if it was already running when the plugin was installed, so the app reloads plugin surfaces.
-5. Open a session, click **+** in the right-side panel switcher, and choose **Context**.
+2. Add the absolute path to `<checkout>/plugins` as a plugin marketplace.
+3. Install **zcode-context**, then enable it.
+4. Restart ZCode once if the app was already running when you installed it.
+5. In a session, open the right-side panel switcher (`+`) and choose **Context / 上下文**.
 
-Updates: run `npm run build && npm run package`, refresh the marketplace, and reinstall/update the
-plugin. Preserve the same local market name; don't create a second market for the same source.
+To update: run `npm run build && npm run package`, refresh the marketplace, and reinstall/update the plugin. Keep the same local market name.
+
+For development, `npm run watch` rebuilds on changes and mirrors the runtime into the installed plugin cache. UI-only changes are picked up by closing and reopening the panel; server or worker changes need a ZCode restart.
 
 ### From GitHub
 
-Add `bowenliang123/zcode-context` (or the full repository URL) as a plugin marketplace, install
-**zcode-context**, and enable it. The repository root `marketplace.json` points at the packaged plugin
-under `plugins/zcode-context`; run `npm run build && npm run package` before publishing a release so
-that directory is present.
+Add `bowenliang123/zcode-context` (or the full repository URL) as a plugin marketplace, install **zcode-context**, and enable it. The repository root `marketplace.json` points at the packaged plugin under `plugins/zcode-context`.
 
-**Requirement:** Node.js 24+ on PATH (`node -v`). The MCP server needs `node:sqlite` and worker
-threads. No npm/build tooling is needed at runtime; `dist/` is self-contained.
+## Use it
 
-## Use
+The Context panel follows DSH's right-sidebar arrangement: a compact metrics strip, Token Stats, Timing Stats, Current Context and Context Trend. Browser, Context Events and File Activity sit behind a slim detail switcher below the trend, so the sidebar stays readable.
 
-### The Context panel
+![The Context panel](https://raw.githubusercontent.com/bowenliang123/zcode-context/main/docs/images/context-panel.png)
 
-The panel is session-scoped and follows the host's theme and locale (English / 简体中文).
-It is arranged like DSH's right-side Context panel: a compact metrics strip, Token Stats, Timing Stats,
-Current Context and Context Trend; Browser, Events and File Activity sit behind a slim detail switcher
-below the trend so the sidebar stays readable.
-
-- **Step selector** — `‹`/`›` or the dropdown move between agent requests. Clicking a trend bar pins
-  that request; the panel keeps your selection while new requests arrive and offers **N newer
-  requests** to jump back. Keyboard `←`/`→` works when focus is not in a field.
-- **Current Context** — the provider-reported prompt size, the resolved window, occupancy, an
-  explicitly labelled output reserve, and the full composition bar.
-- **Context Trend** — stacked category bars; Step/Turn granularity; Total/Delta; **Overview** as a
-  continuous stacked area scaled to the loaded session window (with four axis ticks, turns and a duration
-  curve); **DNA mode** draws each loaded trend bar as a per-item fingerprint and switches the browser to its flat
-  DNA list; Adaptive scaling; hover details and click-to-pin. Compactions, model switches and rewinds
-  are marked above the bar.
-- **Context Browser** — category groups with token totals and change badges; search; sort by
-  size/name/prompt order/calls; **Changes** mode against a previous step or turn; **DNA** mode that
-  flattens every item in prompt order (newest at the top). Click any item for its full content, tool
-  arguments, result body, raw JSON, and find-in-content.
-- **Context Events** — filter by Inject / Compact / Switch / Rewind. Injection rows open the exact
-  browser item; compaction rows open **What was summarized** with pagination.
-- **File Activity** — filter Read / Written / Searched / Images, search paths, sort by ops/latest/
-  path/name/added lines; expand a file for its per-operation log and jump to the tool result.
-- **Coverage** — exact vs approximated headers, Model I/O retention state, and a link to the setting
-  that improves future coverage.
-
-### The `/context` command
-
-Type `/context` in the composer. The plugin's model-visible `get_context_report` tool returns a
-compact report for the current session (current prompt, occupancy, composition, counts, recent
-events, coverage). The command asks the agent to present it without inventing figures.
-
-### Preferences
-
-The gear opens per-user preferences: default view, trend granularity/mode, comparison baseline,
-duration curve, file sort, tool sort, currency, language, context-window override, and compact
-cards. Preferences are stored in the plugin data directory (`ZCODE_PLUGIN_DATA` or
-`~/.zcode/zcode-context/preferences.json`) and do not change the session.
-
-## How the numbers are made
-
-- **Messages** are reconstructed from ZCode's complete session store: `message` and `part` rows,
-  including tool calls/results, synthetic reminders, compaction summaries, images and attachments.
-  `semantics.providerVisibility` decides what was sent to the model; `session.revert` decides the
-  active branch.
-- **Header** (system prompt + tool schemas) comes from ZCode's model-I/O trajectory
-  (`~/.zcode/cli/rollout/model-io-<session>.jsonl`). The file uses `full` / `delta` / `tail`
-  encoding; the panel understands all three.
-- **Per-request totals** come from `model_usage`: `input_tokens` is the provider-reported prompt
-  (cache read included), `output_tokens` is exact, and cache creation/read are kept separate.
-  Category proportions are heuristic and scaled so their sum matches the actual prompt.
-- **Token heuristics** use a script-weighted density (~4 ASCII / 1.5 CJK / 2 other characters per
-  token), plus block and role overhead. Images use the DeepSeek 14px-patch vision calculator when
-  dimensions are recorded. All category figures are labelled `≈`; prompt and output totals are not.
-- **Timing** uses `model_usage` duration/TTFT plus `tool_usage`; the strip paints TTFT, generation,
-  tool runs and gaps. Parallel tool runs may overlap, so the ring clamps the tool slice while the rows
-  keep the true sums.
-- **Cost** is an estimate from a bundled [models.dev](https://models.dev) snapshot at list price
-  (USD, or CNY at 1 CNY = 0.15 USD). Unknown models show `—`; no price is fetched at runtime.
-- **Context window** resolves in this order: your override → ZCode's provider config →
-  models.dev → unknown. Unknown windows show composition without a fake percentage.
-- **File activity** uses Read/Write/Edit metadata (including exact edit additions/deletions) and a
-  conservative shell parser for unambiguous Bash paths; shell-derived ops are marked as estimates.
-
-## Data coverage and retention
-
-ZCode's default **Model I/O retention is bounded**: production keeps at most three session
-trajectory files, resets a session file at 64 MiB, and writes only a trailing message window plus
-deltas. This plugin therefore reconstructs **messages** from the complete session store, while the
-**header** of an older request may be approximated from the nearest recorded request. The panel says
-so in the Coverage card and in the footer; it never presents an approximation as exact.
-
-For exact historical headers, enable **Settings → General → Keep complete model I/O** in ZCode. It
-applies to future requests only; records already discarded cannot be recovered. The plugin never
-changes this setting.
-
-Other limits: usage rows and logs are retained for shorter windows than the session store; a
-session whose model-I/O file is gone still shows a complete message composition with a `header
-missing` residual. Rewound branches are read-only; the summarized-message list follows the active
-branch and says when the compaction itself is on an abandoned branch.
-
-## Adaptation notes (DSH → ZCode)
-
-| dsh-context | zcode-context |
+| Area | What it answers |
 | --- | --- |
-| Conversation **Context** / **Fleet** tabs, Insights sidebar page, `/context` modal | One session-scoped MCP Apps surface with **Context / Fleet / Insights** tabs; ZCode only exposes session-scoped `ui.surfaces`, not a global sidebar page or a programmatic modal. |
-| `/context` modal | `/context` command + model-visible `get_context_report`; the interactive browser remains one click away in the panel. |
-| Host `contextPressure` / `contextBreakdown` projections | Provider-reported `model_usage` + a complete SQLite message store; headers from model-I/O. |
-| DSH subagent/team projections | ZCode `session.parent_id` / `task_type = subagent_child`; Fleet is informational because the panel host exposes no session switch. |
-| File preview / attachment preview column | Read-only metadata and content; paths can be copied. The plugin never loads external resources. |
-| Prompt prefix/suffix injection | Not available in ZCode's plugin contract; omitted rather than faked. |
-| Live plugin attribution (`tools.register`) | Tool-source chips: `built-in`, `plugin`, or `mcp:<server>` inferred from the tool name. |
-| One band per item in every trend bar | DNA uses a compact per-request band series fetched on demand (up to 36 bands per bar); the browser carries the full, paged DNA list. |
+| **Metrics strip** | Turns, steps, tool calls, agent family size, cache-hit rate, estimated cost — with an expandable full stats card. |
+| **Token Stats** | Where the billed tokens went, split by composition and closed by the provider-exact output. |
+| **Timing Stats** | How active time split across waiting for the first token, generation, tool runs and overhead. |
+| **Current Context** | What the window carries right now, against the model's window, including the output reserve and compaction headroom. |
+| **Context Trend** | One bar per request, with Step/Turn, Total/Delta, a continuous Overview, DNA fingerprints, Adaptive scaling and a duration curve. |
+| **Context Browser** | What any selected request was assembled from: categories, search, sort, changes, DNA order and full element content. |
+| **Context Events** | Injections, compactions, model switches and rewinds, with a drill-down into what a compaction summarized. |
+| **File Activity** | Read, written and searched paths, line deltas and the per-operation log. |
 
-The interaction vocabulary is kept: follow vs pin, hover/pin trend, step brief, category diff,
-DNA order, events filters, file filters, and the current-composition reserve masks.
+The step selector at the top pins a request. **Load earlier requests** extends the loaded window. When new requests arrive while you are reading history, the panel offers **N newer** and **Latest** instead of stealing your selection.
 
-## Privacy
+### 🧱 Current Context
 
-- Reads only local files: `~/.zcode/cli/db/db.sqlite`, `db.sqlite-wal`, `rollout/`, `debug/`, `log/`
-  and, for context windows, `~/.zcode/v2/provider_config.json` (model rules only). It also reads
-  `~/.zcode/v2/setting.json` for the retention flag.
-- Opens SQLite `readOnly` with `PRAGMA query_only`; no migrations, writes or locks.
-- No network, no telemetry, no model calls. The HTML resource declares an empty CSP allowlist.
-- Full tool outputs are read one element at a time and chunked; session listings use bounded SQL
-  fields. Every result-producing read is capped under ZCode's 64 KiB `structuredContent` budget, with
-  element content, event pages, DNA lists and category pages paginated rather than truncated silently.
+A segment bar against the resolved context window: system prompt, tool schemas, user messages, injected context, skill injections, assistant replies and tool results, each with its ≈token figure and share. The hatched tail is the output reserve; the remaining space is compaction headroom.
+
+The provider-reported prompt total anchors the bar, so the headline figure matches the request bill. When the system prompt and tool schemas were not retained for an older request, the panel says so and records the missing remainder as **Unrecorded** rather than inventing a split.
+
+### 📈 Context Trend
+
+![Overview area](https://raw.githubusercontent.com/bowenliang123/zcode-context/main/docs/images/context-overview.png)
+
+- **Steps / Turns** — one bar per model request, or one per turn using the turn's last request.
+- **Total / Delta** — cumulative composition, or the signed change against the previous record.
+- **Overview** — the whole loaded session as one continuous stacked area, scaled to the session-wide maximum. It has five axis labels, turn labels and a duration curve; hover to scrub, click to pin. This is not a per-request 100% ribbon: growth and compaction drops stay visible.
+- **DNA** — the newest 120 loaded trend bars become per-item fingerprints, and the browser switches to the flat DNA list. Older bars keep their category colors. Bands are fetched as a compact per-request series and kept across polling refreshes.
+
+![DNA fingerprints and browser](https://raw.githubusercontent.com/bowenliang123/zcode-context/main/docs/images/context-dna.png)
+
+- **Adaptive** scales the chart to the visible maximum; **Duration** overlays each request's active time.
+- **Hover & pin** — scrub for a request tooltip; click to pin the step. The brief below the chart shows **User / In / Response**, the provider's **Actual prompt / Output / Cache**, and opens the exact item in the browser.
+
+### 🧭 Context Browser
+
+![Context Browser](https://raw.githubusercontent.com/bowenliang123/zcode-context/main/docs/images/context-browser.png)
+
+Choose **Categories**, **Changes** or **DNA**:
+
+- **Categories** — collapsible groups, token totals, counts and change badges. Search, sort by size/name/prompt order/calls, and load further pages.
+- **Changes** — diff the selected request against the previous step or turn: added, removed, changed, with signed token deltas.
+- **DNA** — a flat prompt-order list, newest first, with position, category, entering step and token price.
+
+Click any item to read its full content: system prompt, tool schema, message text, reasoning, tool arguments and result body. Tool cards include status, argument table, raw JSON and Markdown/text views; large content is loaded in pages.
+
+Tool schema rows carry a source chip (`built-in`, `plugin`, or `mcp:<server>`) and a call count. The assistant category can be filtered by **Thinking / Tools / Answer**.
+
+### ⚡ Context Events
+
+Every runtime injection, compaction, model switch and rewind is listed with its producer, net token delta, step and time. Filter chips cover the kinds present in the session.
+
+Click a compaction to open **What was summarized**: tokens before/after, summarized and kept counts, duration, and the messages on the active branch. The browser can compare the request before and after. An interrupted or boundary-less compaction says its summarized content is unavailable instead of failing.
+
+### 📁 File Activity
+
+![File Activity](https://raw.githubusercontent.com/bowenliang123/zcode-context/main/docs/images/file-activity.png)
+
+Open **File Activity** from the detail switcher:
+
+- Read / Written / Searched / Images filters and a path search.
+- Sort by operations, latest, path, name or added lines.
+- Expand a file for its per-operation log; each op jumps to the corresponding tool result.
+- Edits use exact recorded additions/deletions when available; writes fall back to content line counts; shell-derived operations are marked as estimates.
+
+## 🚢 Fleet
+
+![Fleet](https://raw.githubusercontent.com/bowenliang123/zcode-context/main/docs/images/fleet.png)
+
+Open the **Fleet** tab to see the current agent, its parents, siblings and every descendant as one card each:
+
+- role (current / parent / sibling / subagent), task type and model;
+- billed tokens, estimated cost and cache-hit rate;
+- latest context size and occupancy;
+- running/completed/error status, with a pulse for a running agent.
+
+Click a card for the initial prompt, latest reply, usage, timing and direct children. The panel host does not expose session switching, so Fleet is informational; open another session from ZCode's session list.
+
+## 🗂️ Insights
+
+![Insights](https://raw.githubusercontent.com/bowenliang123/zcode-context/main/docs/images/insights.png)
+
+The **Insights** tab aggregates the local store across sessions:
+
+- **KPIs** — sessions, billed tokens, estimated cost, cache-hit rate, model calls and average latest context.
+- **7-day chart** — daily billed tokens with estimated cost.
+- **Heatmap** — the last 8 weeks of daily billed tokens; click a day to filter the session cards.
+- **Token mix** — prompt, cache reads and output.
+- **Aggregate composition** — across the 12 most recent sessions, with the count stated.
+- **Session cards** — title, workspace, model, tokens, cost, cache hit and context occupancy; filter by range, search, sort and group by workspace.
+
+Range, day, search and sorting apply to the cards. Usage comes only from sessions whose local usage rows are still retained; the panel says so. When the payload budget trims the card list, it also states how many of the total sessions are shown.
+
+## ⌨️ `/context`
+
+Type `/context` in the composer. The plugin's model-visible `get_context_report` tool reads the current session and returns a concise report: prompt size, occupancy, composition, counts, cost, recent events and coverage. The command asks the agent to present it without inventing figures; the interactive browser remains in the panel.
+
+## ⚙️ Preferences
+
+![Preferences](https://raw.githubusercontent.com/bowenliang123/zcode-context/main/docs/images/settings.png)
+
+The gear opens per-user preferences:
+
+- default view, trend granularity and mode, comparison baseline;
+- duration curve, file and tool sort;
+- currency and language;
+- context-window override (when ZCode's provider config and the bundled catalog cannot resolve one);
+- compact cards.
+
+Preferences are stored under the plugin data directory (`ZCODE_PLUGIN_DATA`, or `~/.zcode/zcode-context/preferences.json`) and never change the session.
+
+## Good to know
+
+**Estimates vs actuals.** Category figures use a script-weighted heuristic (≈4 ASCII / 1.5 CJK / 2 other characters per token) and are anchored to the provider-reported prompt total. Prompt, output and cache counts are exact. The trend tooltip and brief print the provider-reported actuals next to the estimates.
+
+**Context windows.** Resolution order: your override → ZCode's provider config → bundled models.dev snapshot → unknown. Unknown windows stay unknown; the panel does not fabricate a percentage. Costs are list-price estimates from the same offline snapshot; unknown models show `—`.
+
+**Messages vs headers.** Message composition is reconstructed from ZCode's complete SQLite session store, including tool calls/results, synthetic reminders, compaction summaries, images and attachments. System prompts and tool schemas come from model-I/O trajectories. Under ZCode's default bounded retention, older headers may be approximated from the nearest recorded request; the Coverage card and footer say when.
+
+**Retention.** Enable **Settings → General → Keep complete model I/O** in ZCode for exact historical headers. It applies to future requests only; already discarded records cannot be recovered. The plugin never changes this setting.
+
+**Pruning and rewinds.** A request after a compaction excludes the summarized messages; the active rewind branch is followed for items, while session-wide counts and historical activity remain whole-session facts.
+
+**Adaptation limits.** ZCode exposes session-scoped `ui.surfaces` only, so Fleet and Insights are internal tabs rather than first-class sidebar pages, and the host has no session-switch API. There is no prompt prefix/suffix injection. DNA forces Total mode (per-item DNA Delta is not implemented) and covers the newest 120 loaded requests. Image and file attachments show metadata and text where recorded; no external resources are loaded. Fleet, file preview and session-jump behavior therefore differ from DSH.
+
+**I18n.** English and 简体中文.
 
 ## Development
 
 ```sh
 npm install          # esbuild + MCP SDK
 npm run build        # dist/server.mjs, dist/worker.mjs, dist/context.html
+npm run watch        # rebuild on changes + sync the installed dev plugin
+npm run register     # build, package, register/enable the local plugin
 npm test             # domain tests
-npm run check        # manifest, build and syntax checks
+npm run check        # manifest, build, syntax and environment checks
 npm run smoke        # live local database smoke
-npm run mcp-smoke    # real stdio MCP handshake + tools/resource
-npm run preview      # browser preview over the live service
-npm run test-host    # MCP Apps AppBridge handshake + tool calls in an iframe
-npm run package      # installable plugin + local marketplace
+npm run mcp-smoke    # stdio MCP handshake, tools, binding, Insights
+npm run preview      # browser preview over the real read-only service
+npm run test-host    # MCP Apps AppBridge + iframe handshake
+npm run package      # packaged plugin + local marketplace
 ```
 
-`npm run preview` serves the built panel on `127.0.0.1` with a small local transport to the same
-read-only service; append `?theme=dark` or `?lang=en` to inspect the other theme/locale.
+`npm run preview` serves the built panel on `127.0.0.1:4180` with real local data; append `?theme=dark` or `?lang=en`. `npm run test-host` serves the same panel through a real `@modelcontextprotocol/ext-apps` AppBridge on `127.0.0.1:4190`.
+
+Watch loop details: UI-only edits are picked up by closing and reopening the Context panel (the MCP resource is re-read on open). Server/worker edits require restarting ZCode because the running MCP process keeps its module graph.
 
 Key paths:
 
-```
+```text
 src/server.mjs          MCP stdio server and session binding
 src/worker.mjs          read-only SQLite worker
-src/service.mjs         cached session view + payload fitting
-src/data/db.mjs         schema-tolerant bounded SQL queries
+src/service.mjs         cached session view, aggregate, payload fitting
+src/data/db.mjs         schema-tolerant bounded SQL
 src/data/rollout.mjs    model-I/O full/delta/tail reader
-src/domain/compose.mjs  request snapshots, trend, diff, brief
-src/domain/items.mjs    per-element extraction and token estimates
+src/domain/compose.mjs  composition, trend, diff, brief, compaction cuts
+src/domain/items.mjs    element extraction and token estimates
 src/domain/events.mjs   injections, compactions, model switches, rewinds
 src/domain/files.mjs    file operations and aggregation
-src/domain/detail.mjs   full element and summarized-message content
+src/domain/detail.mjs   element and summarized-message content
 ui/app.mjs              MCP App UI
 ui/styles.css           card/chart visual system
 ```
 
+## Privacy
+
+- Reads local ZCode data only: `~/.zcode/cli/db/db.sqlite` and its WAL, `rollout/`, `debug/`, `log/`, plus the model rules in `~/.zcode/v2/provider_config.json` and the retention flag in `~/.zcode/v2/setting.json`.
+- SQLite is opened `readOnly` with `PRAGMA query_only`; no migrations, writes or locks.
+- No network, telemetry or model calls. The HTML resource declares an empty CSP allowlist.
+- Full tool outputs are read one element at a time and chunked; result-producing tools are capped under ZCode's 64 KiB `structuredContent` budget, with pages for large content.
+
+## Compatibility
+
+- ZCode Desktop **3.15.1+**; tested on **3.15.3**.
+- Node.js **24+** (`node:sqlite`, worker threads).
+- See [docs/verification.md](docs/verification.md) for the tested host, commands, coverage caveats and known limits.
+
+## Like it?
+
+If `zcode-context` helped you see what your agent is carrying around, a ⭐ on [GitHub](https://github.com/bowenliang123/zcode-context) is much appreciated. Issues and PRs are welcome.
+
 ## License
 
-Apache-2.0. See [LICENSE](LICENSE) and [NOTICE](NOTICE). Feature and interaction design is adapted
-from **dsh-context** (Apache-2.0); model metadata and list prices come from **models.dev**.
+[Apache-2.0](LICENSE). Feature and interaction design adapted from [dsh-context](https://github.com/bowenliang123/dsh-context); model metadata and list prices from [models.dev](https://models.dev).
