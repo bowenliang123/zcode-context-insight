@@ -26,7 +26,7 @@ Live results during this pass:
 
 ## Desktop install
 
-- Local marketplace added as `dev-zcode-context-insight` (source `/Users/bw/dev/zcode-context/plugins`).
+- Local marketplace added as `dev-zcode-context-insight` (source `<checkout>/plugins`).
 - Plugin installed and enabled as `zcode-context-insight@dev-zcode-context-insight` 0.1.0, MCP server
   `plugin:zcode-context-insight:context`, 1 command, 1 skill, 0 diagnostics.
 - After the required ZCode restart, the native **Context** surface loaded and bound to the live

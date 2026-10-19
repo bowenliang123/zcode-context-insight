@@ -1,6 +1,6 @@
 ![zcode-context-insight — ZCode 上下文洞察](docs/images/context-panel.png)
 
-# zcode-context-insight
+# ZCode 上下文洞察插件 zcode-context-insight
 
 [English](README.md)
 
@@ -22,7 +22,11 @@
 
 **要求：** ZCode Desktop **3.15.1+**（需要官方 MCP Apps UI 契约），以及 `PATH` 中可用的 **Node.js 24+**（`node -v`）。运行时依赖已打进 `dist/`，安装后不需要 npm 或构建工具。
 
-### 本地开发目录
+### 从 ZCode 插件市场安装
+
+在 **设置 → 插件管理** 中安装 **zcode-context-insight** 并启用。打开任意会话，点击右侧面板的 **+**，选择 **上下文**。
+
+### 本地开发目录（standalone 仓库）
 
 ```sh
 npm install
@@ -42,9 +46,9 @@ npm run package
 
 开发时，`npm run watch` 会在文件变化后重建，并把运行时同步到已安装的插件缓存。只改 UI 时，关闭再重新打开面板即可；改动服务端或 Worker 后需要重启 ZCode。
 
-### 从 GitHub 安装
+### 从 GitHub 安装（standalone 仓库）
 
-把 `bowenliang123/zcode-context-insight`（或完整仓库 URL）添加为插件市场，安装 **zcode-context-insight** 并启用。仓库根目录的 `marketplace.json` 指向 `plugins/zcode-context-insight` 下的打包产物。
+把 `bowenliang123/zcode-context-insight`（或完整仓库 URL）添加为插件市场，安装 **zcode-context-insight** 并启用。在 standalone 仓库中，根目录的 `marketplace.json` 指向 `plugins/zcode-context-insight` 下的打包产物。
 
 ## 使用
 
@@ -179,6 +183,8 @@ Provider 报告的提示总量锚定整条分段条，因此头部数字与请�
 **国际化。** English 与简体中文。
 
 ## 开发
+
+下列命令属于 standalone 仓库。在官方市场的源码包里，从市场仓库根目录执行 `pnpm install --frozen-lockfile` 和 `pnpm build`，测试用 `node --test test/*.test.mjs`。
 
 ```sh
 npm install          # esbuild + MCP SDK

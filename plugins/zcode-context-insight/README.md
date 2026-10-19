@@ -1,7 +1,7 @@
 
-# ZCode 上下文洞察插件 zcode-context-insight
+# zcode-context-insight
 
-[中文](README_zh.md)
+[中文](README_CN.md)
 
 **Context insight and management for ZCode, adapted from [dsh-context](https://github.com/bowenliang123/dsh-context).**
 
@@ -19,7 +19,11 @@ It is read-only and offline: no session edits, no model calls, no network.
 
 **Requirements:** ZCode Desktop **3.15.1+** with the official MCP Apps UI contract, and **Node.js 24+** on `PATH` (`node -v`). Runtime dependencies are bundled in `dist/`; no npm or build tools are needed after installation.
 
-### Local checkout
+### From the ZCode plugin marketplace
+
+Install **zcode-context-insight** from **Settings → Plugin Management**, then enable it. In a session, open the right-side panel switcher (`+`) and choose **Context / 上下文**.
+
+### Local checkout (standalone repository)
 
 ```sh
 npm install
@@ -39,9 +43,9 @@ To update: run `npm run build && npm run package`, refresh the marketplace, and 
 
 For development, `npm run watch` rebuilds on changes and mirrors the runtime into the installed plugin cache. UI-only changes are picked up by closing and reopening the panel; server or worker changes need a ZCode restart.
 
-### From GitHub
+### From GitHub (standalone repository)
 
-Add `bowenliang123/zcode-context-insight` (or the full repository URL) as a plugin marketplace, install **zcode-context-insight**, and enable it. The repository root `marketplace.json` points at the packaged plugin under `plugins/zcode-context-insight`.
+Add `bowenliang123/zcode-context-insight` (or the full repository URL) as a plugin marketplace, install **zcode-context-insight**, and enable it. In the standalone repository, the root `marketplace.json` points at the packaged plugin under `plugins/zcode-context-insight`.
 
 ## Use it
 
@@ -176,6 +180,8 @@ Preferences are stored under the plugin data directory (`ZCODE_PLUGIN_DATA`, or 
 **I18n.** English and 简体中文.
 
 ## Development
+
+These commands belong to the standalone repository. In the marketplace source package, build with `pnpm install --frozen-lockfile` and `pnpm build` from the marketplace repository root, and run tests with `node --test test/*.test.mjs`.
 
 ```sh
 npm install          # esbuild + MCP SDK
