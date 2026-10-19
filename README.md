@@ -1,10 +1,7 @@
-![zcode-context-insight — context insight for ZCode](docs/images/context-panel.png)
 
-# zcode-context-insight
+# ZCode 上下文洞察插件 zcode-context-insight
 
 [中文](README_zh.md)
-
-**Apache-2.0 · ZCode Desktop 3.15.1+ · Node.js 24+ · Read-only · Offline**
 
 **Context insight and management for ZCode, adapted from [dsh-context](https://github.com/bowenliang123/dsh-context).**
 
