@@ -1,11 +1,56 @@
 import { build } from 'esbuild'
-import { cp, mkdir, readFile, readdir, rm, writeFile } from 'node:fs/promises'
+import { cp, mkdir, readFile, rm, writeFile } from 'node:fs/promises'
 import { existsSync } from 'node:fs'
-import { basename, dirname, join } from 'node:path'
+import { basename, dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { homedir } from 'node:os'
 
 export const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..')
+
+async function readIfExisting(path) {
+  try {
+    return await readFile(path, 'utf8')
+  } catch (error) {
+    if (error?.code === 'ENOENT') return null
+    throw error
+  }
+}
+
+async function writeThirdPartyNotices(dist, metafiles) {
+  const packages = new Map()
+  for (const metafile of metafiles) {
+    for (const input of Object.keys(metafile.inputs)) {
+      if (!input.includes('node_modules/')) continue
+      let directory = dirname(resolve(input))
+      while (directory !== dirname(directory)) {
+        const source = await readIfExisting(join(directory, 'package.json'))
+        if (source) {
+          const metadata = JSON.parse(source)
+          if (metadata.name && metadata.version) {
+            packages.set(directory, metadata)
+            break
+          }
+        }
+        directory = dirname(directory)
+      }
+    }
+  }
+  let notices = 'zcode-context-insight — bundled dependency notices\n\n'
+  for (const [directory, metadata] of [...packages.entries()].sort((a, b) =>
+    a[1].name.localeCompare(b[1].name),
+  )) {
+    let license = ''
+    for (const name of ['LICENSE', 'LICENSE.md', 'LICENSE.txt', 'LICENSE-MIT', 'license', 'license.md']) {
+      license = (await readIfExisting(join(directory, name))) ?? ''
+      if (license) break
+    }
+    if (!license) throw new Error('Missing bundled dependency license: ' + metadata.name)
+    notices += '===== ' + metadata.name + ' ' + metadata.version + ' =====\n' + license + '\n\n'
+    const notice = await readIfExisting(join(directory, 'NOTICE'))
+    if (notice) notices += notice + '\n\n'
+  }
+  await writeFile(join(dist, 'THIRD_PARTY_NOTICES.txt'), notices, 'utf8')
+}
 
 export async function buildAll({ quiet = false } = {}) {
   const dist = join(ROOT, 'dist')
@@ -13,7 +58,7 @@ export async function buildAll({ quiet = false } = {}) {
   await mkdir(dist, { recursive: true })
   const logLevel = quiet ? 'silent' : 'info'
 
-  await build({
+  const serverBuild = await build({
     entryPoints: [join(ROOT, 'src/server.mjs')],
     outfile: join(dist, 'server.mjs'),
     bundle: true,
@@ -22,9 +67,10 @@ export async function buildAll({ quiet = false } = {}) {
     target: 'node24',
     sourcemap: false,
     legalComments: 'none',
+    metafile: true,
     logLevel,
   })
-  await build({
+  const workerBuild = await build({
     entryPoints: [join(ROOT, 'src/worker.mjs')],
     outfile: join(dist, 'worker.mjs'),
     bundle: true,
@@ -33,6 +79,7 @@ export async function buildAll({ quiet = false } = {}) {
     target: 'node24',
     sourcemap: false,
     legalComments: 'none',
+    metafile: true,
     logLevel,
   })
   const bundle = await build({
@@ -46,6 +93,7 @@ export async function buildAll({ quiet = false } = {}) {
     charset: 'utf8',
     legalComments: 'none',
     loader: { '.svg': 'text' },
+    metafile: true,
     logLevel,
   })
   const app = bundle.outputFiles[0].text.replace(/<\/script/gi, '<\\/script')
@@ -55,8 +103,15 @@ export async function buildAll({ quiet = false } = {}) {
     .replace('/*__STYLE__*/', () => css.replace(/<\/style/gi, '<\\/style'))
     .replace('/*__APP__*/', () => app)
   await writeFile(join(dist, 'context.html'), html, 'utf8')
+  await writeThirdPartyNotices(dist, [serverBuild.metafile, workerBuild.metafile, bundle.metafile])
 
-  const manifest = JSON.parse(await readFile(join(ROOT, '.zcode-plugin/plugin.json'), 'utf8'))
+  // In the marketplace layout the manifest lives in the install directory, not
+  // next to the build source; the host build passes that directory explicitly.
+  const installDir = process.env.ZCODE_PLUGIN_INSTALL_DIR?.trim()
+  const manifestPath = installDir
+    ? join(installDir, '.zcode-plugin/plugin.json')
+    : join(ROOT, '.zcode-plugin/plugin.json')
+  const manifest = JSON.parse(await readFile(manifestPath, 'utf8'))
   await writeFile(
     join(dist, 'build.json'),
     JSON.stringify({ name: manifest.name, version: manifest.version, builtAt: new Date().toISOString() }, null, 2),
@@ -84,7 +139,7 @@ export async function syncInstalled() {
   if (!entry?.installPath || !existsSync(entry.installPath)) return null
   const target = join(entry.installPath, 'dist')
   await mkdir(target, { recursive: true })
-  for (const file of ['server.mjs', 'worker.mjs', 'context.html', 'build.json']) {
+  for (const file of ['server.mjs', 'worker.mjs', 'context.html', 'build.json', 'THIRD_PARTY_NOTICES.txt']) {
     await cp(join(ROOT, 'dist', file), join(target, file))
   }
   return entry.installPath
