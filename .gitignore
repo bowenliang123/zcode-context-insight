@@ -6,3 +6,4 @@ coverage/
 tmp/
 .tmp/
 .preview/
+.pnpm-store/
